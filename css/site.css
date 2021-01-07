@@ -15,7 +15,7 @@ body {
 }
 
 /* changes to bootstrap css */
-.container-fluid, [class^="col"] {
+.container-fluid {
 	padding-left: 0 !important;
 	padding-right: 0 !important;
 }
