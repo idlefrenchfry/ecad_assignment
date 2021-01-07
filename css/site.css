@@ -13,3 +13,14 @@ body {
 	background-color: #017CA7;
 	color: white;
 }
+
+/* changes to bootstrap css */
+.container-fluid, [class^="col"] {
+	padding-left: 0 !important;
+	padding-right: 0 !important;
+}
+
+.row {
+	margin-left: 0 !important;
+	margin-right: 0 !important;
+}
