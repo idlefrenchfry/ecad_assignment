@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Mamaya e-BookStore</title>
+        <title>E-Giftr Online Gift Store</title>
         <!-- Latest Compiled and minified CSS -->
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <!-- jQuery Library -->
@@ -42,8 +42,8 @@
                 <div class="col-sm-12" style="text-align: right;">
                     <hr />
                     Do you need help? Please email to:
-                    <a href="mailto:mamaya@np.edu.sg">mamaya@np.edu.sg</a>
-                    <p style="font-size: 12px">&copy;Copyright by Mamaya Group</p>
+                    <a href="mailto:mamaya@np.edu.sg">egiftr@np.edu.sg</a>
+                    <p style="font-size: 12px">&copy;Copyright by E-Giftr Group</p>
                 </div>
             </div>  
 
