@@ -74,20 +74,19 @@ while ($row = $result->fetch_array())
         $MainContent .=" S$ $offeredPrice <br />";
     }
                     
-}
 
 // To Do 1:  Ending ....
 
 // To Do 2:  Create a Form for adding the product to shopping cart. Starting ....
 if($row["Quantity"] > 0) {
-$quantity = $row['Quantity'];
-$MainContent .= "<form action='cartFunctions.php' method='post'>";
-$MainContent .= "<input type='hidden' name='productDetails' value='add' />";
-$MainContent .= "<input type='hidden' name='product_id' value='$pid' />";
-$MainContent .= "Quantity: <input type='number' name='quantity' value='1' min='1' max= $quantity style='width:40px;' required='required' />";
-$MainContent .="<div style='font-style:italic'>In stock:&nbsp$quantity&nbspleft</div>";
-$MainContent .= "<button type='submit' class='btn btn-primary' color:black;'>Add to Cart</button>";
-$MainContent .= "</form>";
+    $quantity = $row['Quantity'];
+    $MainContent .= "<form action='cartFunctions.php' method='post'>";
+    $MainContent .= "<input type='hidden' name='productDetails' value='add' />";
+    $MainContent .= "<input type='hidden' name='product_id' value='$pid' />";
+    $MainContent .= "Quantity: <input type='number' name='quantity' value='1' min='1' max= '$quantity' style='width:40px;' required='required' />";
+    $MainContent .="<div style='font-style:italic'>In stock:&nbsp$quantity&nbspleft</div>";
+    $MainContent .= "<button type='submit' class='btn btn-primary' color:black;'>Add to Cart</button>";
+    $MainContent .= "</form>";
 }
 else{
     $MainContent .= "Quantity: <input type='number' disabled name='quantity' value='0'
@@ -99,6 +98,7 @@ else{
 }
 $MainContent .= "</div"; // End of right column
 $MainContent .= "</div>"; // End of row
+}
 
 // To Do 2:  Ending ....
 
