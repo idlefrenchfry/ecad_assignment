@@ -1,5 +1,6 @@
 <?php 
-session_start();
+// Include the code that contains shopping cart's functions
+include_once("cartFunctions.php");
 
 // Check if user logged in 
 if (! isset($_SESSION["ShopperID"])) {
@@ -8,7 +9,4 @@ if (! isset($_SESSION["ShopperID"])) {
 	exit;
 }
 
-
-
 ?>
-
