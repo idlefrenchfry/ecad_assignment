@@ -92,7 +92,7 @@ else{
     $MainContent .= "Quantity: <input type='number' disabled name='quantity' value='0'
                        style='width:40px' disabled />";
 
-    $MainContent .= "<br><br><button type='submit' disabled class='btn btn-primary' style='background-color:#f59acc; border-color:#f59acc; color:black;'>Add to Cart</button>";
+    $MainContent .= "<br><br><button type='submit' disabled class='btn' style='background-color:#bfbfbf; color:white;'>Add to Cart</button>";
     
     $MainContent .= "<br><span style='font-weight: bold; color: red; font-size:20px'>Out of Stock!</span>";
 }
