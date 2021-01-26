@@ -62,8 +62,18 @@ while ($row = $result->fetch_array())
 
     // Right Column - display the product's price
     $formattedPrice = number_format($row["Price"], 2);
-    $MainContent .= "Price: <span style='font-weight: bold; color: red;'>
+    $offeredPrice = number_format($row["OfferedPrice"],2);
+
+    if ($offeredPrice <=0)
+    {
+        $MainContent .="Price: S$ $formattedPrice";
+    }
+    else{
+        $MainContent .="Price:<span style='font-weight:bold; color: red; text-decoration: line-through;'>  
                     S$ $formattedPrice</span>";
+        $MainContent .=" S$ $offeredPrice <br />";
+    }
+                    
 }
 
 // To Do 1:  Ending ....
@@ -73,7 +83,16 @@ $MainContent .= "<form action='cartFunctions.php' method='post'>";
 $MainContent .= "<input type='hidden' name='action' value='add' />";
 $MainContent .= "<input type='hidden' name='product_id' value='$pid' />";
 $MainContent .= "Quantity: <input type='number' name='quantity' value='1' min='1' max='10' style='width:40px;' required='required' />";
-$MainContent .= "<button type='submit'>Add to Cart</button>";
+$MainContent .="<div style='font-style:italic'>In stock:&nbsp$quantity&nbspleft</div>";
+if ($quantity == 0)
+{
+    $MainContent .="<h1><span>Out of Stock</span></h1>";
+    $MainContent .="<button type='submit'disabled >Add to Cart</button>";
+    
+}
+else{
+$MainContent .="<button type='submit'>Add to Cart</button>";
+}
 $MainContent .= "</form>";
 $MainContent .= "</div"; // End of right column
 $MainContent .= "</div>"; // End of row
