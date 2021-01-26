@@ -25,7 +25,7 @@ while ($row = $result->fetch_array())
     // Product's name is read from the "ProductTitle" column of "product" table.
 
     $MainContent .= "<div class='row'>";
-    $MainContent .= "<div class='col-sm-12' style='padding: 5px'>";
+    $MainContent .= "<div class='col-sm-12'  style='padding: 5px'>";
     $MainContent .= "<span class='page-title'>$row[ProductTitle]</span>";
     $MainContent .= "</div>";
     $MainContent .= "</div>";
@@ -66,7 +66,7 @@ while ($row = $result->fetch_array())
 
     if ($offeredPrice <=0)
     {
-        $MainContent .="Price: S$ $formattedPrice";
+        $MainContent .="Price: S$ $formattedPrice <br />";
     }
     else{
         $MainContent .="Price:<span style='font-weight:bold; color: red; text-decoration: line-through;'>  
