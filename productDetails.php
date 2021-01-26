@@ -86,7 +86,7 @@ $MainContent .= "<input type='hidden' name='productDetails' value='add' />";
 $MainContent .= "<input type='hidden' name='product_id' value='$pid' />";
 $MainContent .= "Quantity: <input type='number' name='quantity' value='1' min='1' max= $quantity style='width:40px;' required='required' />";
 $MainContent .="<div style='font-style:italic'>In stock:&nbsp$quantity&nbspleft</div>";
-$MainContent .= "<button type='submit' class='btn btn-primary' style='background-color:#f59acc; border-color:#f59acc; color:black;'>Add to Cart</button>";
+$MainContent .= "<button type='submit' class='btn btn-primary' color:black;'>Add to Cart</button>";
 $MainContent .= "</form>";
 }
 else{
