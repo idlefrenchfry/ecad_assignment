@@ -25,11 +25,11 @@ $stmt->close();
 if($result->num_rows == 1) {
     while($row = $result->fetch_array()) {
         if ($row["Password"] == $pwd) {
-            // Save user's info in session variables
+            
+            // save info in session
             $_SESSION["ShopperName"] = $row["Name"];
             $_SESSION["ShopperID"] = $row["ShopperID"];
 
-            // To Do 2 (Practical 4): Get active shopping cart
             $qry = "SELECT ShopCartID FROM ShopCart WHERE ShopperID=? AND OrderPlaced=0";
             $stmt = $conn->prepare($qry);
             $stmt->bind_param("s", $_SESSION["ShopperID"]);
@@ -72,7 +72,7 @@ if($result->num_rows == 1) {
 
         else {
             // Set error message
-            $_SESSION['errors'] = "Invalid  password";
+            $_SESSION['errors'] = "Invalid password";
 
             // Close database connection
             $conn->close();
