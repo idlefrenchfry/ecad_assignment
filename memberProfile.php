@@ -95,13 +95,13 @@ else {
 
 $MainContent = "<div style='width:80%; margin:auto;'>"; // start of containing div
 $MainContent .= "<div class='row'>";
-$MainContent .= "<span class='page-title'>Profile</span>";
+$MainContent .= "<div style='margin:auto' class='page-title'>Profile</div>";
 $MainContent .= "</div>";
 
 $MainContent .= "<form name='update' action='updateMemberProfile.php' method='post' 
                        onsubmit='return validateForm()'>";
 
-$MainContent .= "<div class='row'>"; // start of row 1
+$MainContent .= "<div class='row mt-3'>"; // start of row 1
 $MainContent .= "<div class='card-deck justify-content-center' style='width:100%;'>"; // start of card group
 
 // Member's name
