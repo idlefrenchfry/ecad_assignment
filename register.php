@@ -76,7 +76,7 @@ $MainContent .= "</div>";
 $MainContent .= "<div class='form-group row'>";
 $MainContent .= "<label class='col-sm-3 col-form-label' for='name'>Name:</label>";
 $MainContent .= "<div class='col-sm-9'>";
-$MainContent .= "<input class='form-control' name='name' id='name' 
+$MainContent .= "<input class='form-control' name='name' id='name'
                   value='$name' type='text' required /> (required)";
 $MainContent .= "</div>";
 $MainContent .= "</div>";
@@ -120,7 +120,7 @@ $MainContent .= "<div class='form-group row'>";
 $MainContent .= "<label class='col-sm-3 col-form-label' for='email'>
                  Email Address:</label>";
 $MainContent .= "<div class='col-sm-9'>";
-$MainContent .= "<input class='form-control' name='email' id='email' 
+$MainContent .= "<input class='form-control' name='email' id='email'
                   value='$email' type='email' required /> (required)";
 
 // Same email message
@@ -146,7 +146,7 @@ $MainContent .= "<div class='form-group row'>";
 $MainContent .= "<label class='col-sm-3 col-form-label' for='password2'>
                  Retype Password:</label>";
 $MainContent .= "<div class='col-sm-9'>";
-$MainContent .= "<input class='form-control' name='password2' id='password2' 
+$MainContent .= "<input class='form-control' name='password2' id='password2'
                 type='password' required /> (required)";
 $MainContent .= "</div>";
 $MainContent .= "</div>";

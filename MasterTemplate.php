@@ -6,6 +6,9 @@
         <title>E-Giftr Online Gift Store</title>
         <!-- Latest Compiled and minified CSS -->
         <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
         <!-- jQuery Library -->
         <script src="js/jquery-3.3.1.min.js"></script>
         <!-- Latest compiled Javascript -->

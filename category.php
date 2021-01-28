@@ -2,15 +2,16 @@
 session_start();
 
 // Content to be 60% container width
-$MainContent = "<div style='width:60%; margin:auto;'>";
+$MainContent = "<div style='width:100%; margin:auto;'>";
 
 // Page Header
-$MainContent .= "<div class='row' style='padding:5px'>";
-$MainContent .= "<div class='col-12'>";
+$MainContent .= "<div class='row'>";
+$MainContent .= "<div class='col-12' style='text-align:center;'>";
 $MainContent .= "<span class='page-title'>Product Categories</span>";
 $MainContent .= "<p>Select a category listed below:</p>";
 $MainContent .= "</div>";
 $MainContent .= "</div>";
+$MainContent .= "</div>";// End header row
 
 // Establish data connection
 include_once("mysql_conn.php");
@@ -18,8 +19,8 @@ include_once("mysql_conn.php");
 $MainContent .= "<div class='row' style='padding:5px'>"; // Start of main content row
 
 // Get all categories
-$qry = "SELECT * FROM Category";
-$result = $conn->query($qry);
+$qry = "SELECT * FROM Category"; //Form SQL to select all categores
+$result = $conn->query($qry); //Execute the SQL statement
 
 $MainContent .= "<div class='card-deck flex-wrap justify-content-center'>"; // Start of card deck
 
