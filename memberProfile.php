@@ -1,3 +1,10 @@
+<style>
+label {
+    display: unset !important;
+    margin-bottom: 0 !important;
+}
+</style>
+
 <script type="text/javascript">
 function validateForm()
 {
@@ -102,7 +109,7 @@ $MainContent .= "<div class='card-deck justify-content-center' style='width:100%
 // Member's name
 $MainContent .= "<div class='card border-0 mb-3' style='width: 18rem;'>";
 $MainContent .= "<div class='card-body text-dark'>";
-$MainContent .= "<h5 class='card-title'>Name</h5>";
+$MainContent .= "<h5 class='card-title'><label for='name'>Name</label></h5>";
 $MainContent .= "<input class='form-control' name='name' id='name' 
                 value='$name' type='text' required />";
 $MainContent .= "</div>";
@@ -118,7 +125,7 @@ $MainContent .= "<div class='card-deck justify-content-center' style='width:100%
 // Member's Birth date
 $MainContent .= "<div class='card border-0 mb-3' style='width: 18rem;'>";
 $MainContent .= "<div class='card-body text-dark'>";
-$MainContent .= "<h5 class='card-title'>Birthday</h5>";
+$MainContent .= "<h5 class='card-title'><label for='dob'>Birthday</label></h5>";
 $MainContent .= "<input class='form-control' name='dob' id='dob' 
                 value='$dob' type='date' />";
 $MainContent .= "</div>";
@@ -127,7 +134,7 @@ $MainContent .= "</div>";
 // Member's Country
 $MainContent .= "<div class='card border-0 mb-3' style='width: 18rem;'>";
 $MainContent .= "<div class='card-body text-dark'>";
-$MainContent .= "<h5 class='card-title'>Country</h5>";
+$MainContent .= "<h5 class='card-title'><label for='country'>Country</label></h5>";
 $MainContent .= "<input class='form-control' name='country' id='country' type='text' value='$country' />";
 $MainContent .= "</div>";
 $MainContent .= "</div>";
@@ -143,7 +150,7 @@ $MainContent .= "<div class='card-deck justify-content-center' style='width:100%
 // Member's Phone
 $MainContent .= "<div class='card border-0 mb-3' style='width: 18rem;'>";
 $MainContent .= "<div class='card-body text-dark'>";
-$MainContent .= "<h5 class='card-title'>Phone Number</h5>";
+$MainContent .= "<h5 class='card-title'><label for='ph'>Phone Number</label></h5>";
 $MainContent .= "<div class='d-flex align-items-center'>";
 $MainContent .= "<span style='padding-right: 10px'>(65) </span>";
 $MainContent .= "<input class='form-control' name='ph' id='ph' type='text' value='$ph' />";
@@ -154,7 +161,7 @@ $MainContent .= "</div>";
 // Member's Email
 $MainContent .= "<div class='card border-0 mb-3' style='width: 18rem;'>";
 $MainContent .= "<div class='card-body text-dark'>";
-$MainContent .= "<h5 class='card-title'>Email</h5>";
+$MainContent .= "<h5 class='card-title'><label for='email'>Email</label></h5>";
 $MainContent .= "<input class='form-control' name='email' id='email' 
                 value='$email' type='email' required />";
 
@@ -176,7 +183,7 @@ $MainContent .= "<div class='card-deck justify-content-center' style='width:100%
 // Member's Address
 $MainContent .= "<div class='card border-0 mb-3' style='width: 18rem;'>";
 $MainContent .= "<div class='card-body text-dark'>";
-$MainContent .= "<h5 class='card-title'>Address</h5>";
+$MainContent .= "<h5 class='card-title'><label for='address'>Address</label></h5>";
 $MainContent .= "<textarea class='form-control' name='address' id='address'
                 cols='25' rows='4' >$address</textarea>";
 $MainContent .= "</div>";
