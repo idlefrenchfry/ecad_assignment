@@ -21,8 +21,9 @@
             <!-- Row 1 -->
             <div class="row no-gutters">
                 <div class="col-sm-12">
-                    <a href="index.php"></a>
+                    <a href="index.php">
                     <img src="Images/GIFTR.png" alt="Logo" class="img-fluid" style="width: 100%">
+                    </a>
                 </div>
             </div>
 
