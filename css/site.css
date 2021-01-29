@@ -8,6 +8,11 @@ body {
 	font-weight:bold;
 }
 
+.page-subtitle {
+	font-size: 18px;
+	font-weight: bold;
+}
+
 .cart-header {
 	/*background-color: #0040FF;*/
 	background-color: #017CA7;
