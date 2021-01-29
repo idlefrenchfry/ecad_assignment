@@ -69,16 +69,17 @@ if (isset($_GET['keywords']) && (isset($_GET['num1']) && isset($_GET['num2']))) 
 
     $qry = "SELECT ProductID, ProductTitle, ProductDesc, Price, OfferedPrice  FROM product WHERE $num2 >= Price AND Price >= $num1 ";
     if (isset($_GET['check'])) {
-        $qry .= "AND Offered = 1  ";
+        $qry .= "AND Offered = 1 ";
         //$msg .= " and on offer:";
     }
     else {
         $qry .= "AND Offered = 0 ";
         //$msg .= ":";
     }
-    $qry .= "AND ProductID IN (SELECT ProductID from product WHERE ProductTitle LIKE ? OR ProductDesc LIKE ?) ORDER BY ProductTitle ASC ";
+
+    $qry .= "AND ProductID IN (SELECT product.ProductID from product INNER JOIN productspec ON product.ProductID = productspec.ProductID WHERE ProductTitle LIKE ? OR ProductDesc LIKE ? OR SpecVal LIKE ?) ORDER BY ProductTitle ASC ";
     $stmt = $conn->prepare($qry);
-    $stmt->bind_param("ss", $search, $search);
+    $stmt->bind_param("sss", $search, $search, $search);
     $stmt->execute();
     $result = $stmt->get_result();
 
@@ -88,16 +89,7 @@ if (isset($_GET['keywords']) && (isset($_GET['num1']) && isset($_GET['num2']))) 
     
     $MainContent .= "<p style='font-size: 15px; font-weight: bold;'>Search Results for $SearchText: </p>";
 
-    // Table format
-    $MainContent .= "<table class='table table-striped'>";
-    $MainContent .= "<thead class='thead-dark'>";
-    $MainContent .= "<tr>";
-    $MainContent .= "<th scope='col'>Title</th>";
-    $MainContent .= "<th scope='col'>Description</th>";
-    $MainContent .= "<th scope='col'>Price</th>";
-    $MainContent .= "</tr>";
-    $MainContent .= "</thead>";
-    $MainContent .= "<tbody>";
+    
 
     if ($result->num_rows > 0) {
     while ($row = $result->fetch_array())
@@ -106,16 +98,26 @@ if (isset($_GET['keywords']) && (isset($_GET['num1']) && isset($_GET['num2']))) 
         // $MainContent .= "<p><a href='$product'>$row[ProductTitle]</a></p>";
 
         // code for table display
+        // Table format
+        $MainContent .= "<table class='table table-striped'>";
+        $MainContent .= "<thead class='thead-dark'>";
+        $MainContent .= "<tr>";
+        $MainContent .= "<th scope='col'>Title</th>";
+        $MainContent .= "<th scope='col'>Description</th>";
+        $MainContent .= "<th scope='col'>Price</th>";
+        $MainContent .= "</tr>";
+        $MainContent .= "</thead>";
+        $MainContent .= "<tbody>";
         $product = "productDetails.php?pid=$row[ProductID]";
         $MainContent .= "<tr>";
         $MainContent .= "<td><a href='$product'>$row[ProductTitle]</a></td>";
         $MainContent .= "<td style='width: 60%;'>$row[ProductDesc]</td>";
         $MainContent .= "<td><del>S$"."$row[Price]</del>S$"."$row[OfferedPrice]</td>";
         $MainContent .= "</tr>";
+        $MainContent .= "</tbody>";
+        $MainContent .= "</table>";
     }
 
-    $MainContent .= "</tbody>";
-    $MainContent .= "</table>";
     }
      else {
          $MainContent .= "<h3 style='color:#f774bc'>No results found, please try again.</h3>";
@@ -123,6 +125,7 @@ if (isset($_GET['keywords']) && (isset($_GET['num1']) && isset($_GET['num2']))) 
     
 	// To Do (DIY): End of Code
 }
+
 
 $MainContent .= "</div>"; // End of Container
 include("MasterTemplate.php");
