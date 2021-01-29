@@ -28,7 +28,7 @@ $MainContent .= "<div class='card-deck d-flex justify-content-start;'>"; // Star
 
 while ($row = $result->fetch_array()) {
     //$MainContent .= "<div class='d-flex justify-content-start;'>";
-    $MainContent .= "<div class='card' style='min-width: 18rem; max-width:250px; margin-bottom: 10px;'>"; // Start of card
+    $MainContent .= "<div class='card' style='width: 18rem; margin-bottom: 10px;'>"; // Start of card
 
     // Get category details
     $catName = urlencode($row["CatName"]);
