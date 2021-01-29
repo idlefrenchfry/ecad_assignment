@@ -86,7 +86,7 @@ $MainContent .= "<div class='form-group row'>";
 $MainContent .= "<label class='col-sm-3 col-form-label' for='dob'>Date of Birth:</label>";
 $MainContent .= "<div class='col-sm-9'>";
 $MainContent .= "<input class='form-control' name='dob' id='dob' 
-                  value='$dob' type='date' required /> (required)";
+                  value='$dob' type='date' />";
 $MainContent .= "</div>";
 $MainContent .= "</div>";
 

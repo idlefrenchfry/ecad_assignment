@@ -45,6 +45,9 @@ if(isset($_SESSION["ShopperName"])) {
             <li class="nav-item">
                 <a href="shoppingCart.php" class="nav-link">Shopping Cart</a>
             </li>
+            <li class="nav-item">
+                <a href="feedback.php" class="nav-link">Feedback</a>
+            </li>
         </ul>
 
         <ul class="navbar-nav ml-auto">
