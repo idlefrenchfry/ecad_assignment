@@ -1,3 +1,10 @@
+<style>
+label {
+    display: unset !important;
+    margin-bottom: 0 !important;
+}
+</style>
+
 <script type="text/javascript">
 function validateForm()
 {
@@ -46,8 +53,6 @@ if (isset($_SESSION["updateEmailFailedMsg"])) {
     $ph = $_SESSION["updatePhone"];
     $password = $_SESSION["updatePassword"];
     $email = $_SESSION["updateEmail"];
-    $pwdqn = $_SESSION["updateForgetPwdQn"];
-    $pwdans = $_SESSION["updateForgetPwdAns"];
 }
 
 else {
@@ -85,9 +90,6 @@ else {
         for($i = 0; $i < $pwd_len; ++$i) {
             $password .= "*";
         }
-    
-        $pwdqn = $row["PwdQuestion"];
-        $pwdans = $row["PwdAnswer"];
     }
 }
 
@@ -105,9 +107,9 @@ $MainContent .= "<div class='row mt-3'>"; // start of row 1
 $MainContent .= "<div class='card-deck justify-content-center' style='width:100%;'>"; // start of card group
 
 // Member's name
-$MainContent .= "<div class='card border-dark mb-3' style='width: 18rem;'>";
+$MainContent .= "<div class='card border-0 mb-3' style='width: 18rem;'>";
 $MainContent .= "<div class='card-body text-dark'>";
-$MainContent .= "<h5 class='card-title'>Name</h5>";
+$MainContent .= "<h5 class='card-title'><label for='name'>Name</label></h5>";
 $MainContent .= "<input class='form-control' name='name' id='name' 
                 value='$name' type='text' required />";
 $MainContent .= "</div>";
@@ -121,20 +123,19 @@ $MainContent .= "<div class='row'>";
 $MainContent .= "<div class='card-deck justify-content-center' style='width:100%;'>"; // start of card group
 
 // Member's Birth date
-$MainContent .= "<div class='card border-dark mb-3' style='width: 18rem;'>";
+$MainContent .= "<div class='card border-0 mb-3' style='width: 18rem;'>";
 $MainContent .= "<div class='card-body text-dark'>";
-$MainContent .= "<h5 class='card-title'>Birthday</h5>";
+$MainContent .= "<h5 class='card-title'><label for='dob'>Birthday</label></h5>";
 $MainContent .= "<input class='form-control' name='dob' id='dob' 
                 value='$dob' type='date' />";
 $MainContent .= "</div>";
 $MainContent .= "</div>";
 
-// Member's Address
-$MainContent .= "<div class='card border-dark mb-3' style='width: 18rem;'>";
+// Member's Country
+$MainContent .= "<div class='card border-0 mb-3' style='width: 18rem;'>";
 $MainContent .= "<div class='card-body text-dark'>";
-$MainContent .= "<h5 class='card-title'>Address</h5>";
-$MainContent .= "<textarea class='form-control' name='address' id='address'
-                cols='25' rows='4' >$address</textarea>";
+$MainContent .= "<h5 class='card-title'><label for='country'>Country</label></h5>";
+$MainContent .= "<input class='form-control' name='country' id='country' type='text' value='$country' />";
 $MainContent .= "</div>";
 $MainContent .= "</div>";
 
@@ -146,18 +147,10 @@ $MainContent .= "</div>"; // end of row 2
 $MainContent .= "<div class='row'>"; 
 $MainContent .= "<div class='card-deck justify-content-center' style='width:100%;'>"; // start of card group
 
-// Member's Country
-$MainContent .= "<div class='card border-dark mb-3' style='width: 18rem;'>";
-$MainContent .= "<div class='card-body text-dark'>";
-$MainContent .= "<h5 class='card-title'>Country</h5>";
-$MainContent .= "<input class='form-control' name='country' id='country' type='text' value='$country' />";
-$MainContent .= "</div>";
-$MainContent .= "</div>";
-
 // Member's Phone
-$MainContent .= "<div class='card border-dark mb-3' style='width: 18rem;'>";
+$MainContent .= "<div class='card border-0 mb-3' style='width: 18rem;'>";
 $MainContent .= "<div class='card-body text-dark'>";
-$MainContent .= "<h5 class='card-title'>Phone Number</h5>";
+$MainContent .= "<h5 class='card-title'><label for='ph'>Phone Number</label></h5>";
 $MainContent .= "<div class='d-flex align-items-center'>";
 $MainContent .= "<span style='padding-right: 10px'>(65) </span>";
 $MainContent .= "<input class='form-control' name='ph' id='ph' type='text' value='$ph' />";
@@ -166,9 +159,9 @@ $MainContent .= "</div>";
 $MainContent .= "</div>";
 
 // Member's Email
-$MainContent .= "<div class='card border-dark mb-3' style='width: 18rem;'>";
+$MainContent .= "<div class='card border-0 mb-3' style='width: 18rem;'>";
 $MainContent .= "<div class='card-body text-dark'>";
-$MainContent .= "<h5 class='card-title'>Email</h5>";
+$MainContent .= "<h5 class='card-title'><label for='email'>Email</label></h5>";
 $MainContent .= "<input class='form-control' name='email' id='email' 
                 value='$email' type='email' required />";
 
@@ -187,30 +180,12 @@ $MainContent .= "</div>"; // end of row 3
 $MainContent .= "<div class='row'>"; 
 $MainContent .= "<div class='card-deck justify-content-center' style='width:100%;'>"; // start of card group
 
-// Member's Password
-$MainContent .= "<div class='card border-dark mb-3' style='width: 18rem;'>";
+// Member's Address
+$MainContent .= "<div class='card border-0 mb-3' style='width: 18rem;'>";
 $MainContent .= "<div class='card-body text-dark'>";
-$MainContent .= "<h5 class='card-title'>Password</h5>";
-$MainContent .= "<input readonly class='form-control' name='password' id='password' 
-                value='$password' type='password' />";
-$MainContent .= "</div>";
-$MainContent .= "</div>";
-
-// Member's Forget Password Question
-$MainContent .= "<div class='card border-dark mb-3' style='width: 18rem;'>";
-$MainContent .= "<div class='card-body text-dark'>";
-$MainContent .= "<h5 class='card-title'>Forgot Password Question</h5>";
-$MainContent .= "<input class='form-control' name='forgetPwdQn' id='forgetPwdQn' 
-                value='$pwdqn' type='text' required />";
-$MainContent .= "</div>";
-$MainContent .= "</div>";
-
-// Member's Forget Password Answer
-$MainContent .= "<div class='card border-dark mb-3' style='width: 18rem;'>";
-$MainContent .= "<div class='card-body text-dark'>";
-$MainContent .= "<h5 class='card-title'>Forgot Password Answer</h5>";
-$MainContent .= "<input class='form-control' name='forgetPwdAns' id='forgetPwdAns' 
-                value='$pwdans' type='text' required />";
+$MainContent .= "<h5 class='card-title'><label for='address'>Address</label></h5>";
+$MainContent .= "<textarea class='form-control' name='address' id='address'
+                cols='25' rows='4' >$address</textarea>";
 $MainContent .= "</div>";
 $MainContent .= "</div>";
 
@@ -219,7 +194,7 @@ $MainContent .= "</div>"; // end of row 4
 
 // save button
 $MainContent .= "<div class='row'>"; 
-$MainContent .= "<button class='btn btn-primary' style='width: 100px' type='submit'>Save</button>";
+$MainContent .= "<button class='btn btn-primary' style='width: 100px; margin-left:1.25rem;' type='submit'>Save</button>";
 $MainContent .= "</div>"; 
 
 $MainContent .= "</form>"; // end of form
@@ -233,8 +208,6 @@ if (isset($_SESSION["updateEmailFailedMsg"])) {
     unset($_SESSION["updateCountry"]);
     unset($_SESSION["updatePhone"]);
     unset($_SESSION["updateEmail"]);
-    unset($_SESSION["updateForgetPwdQn"]);
-    unset($_SESSION["updateForgetPwdAns"]);
 }
 
 include("MasterTemplate.php");
