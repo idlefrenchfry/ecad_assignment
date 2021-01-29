@@ -70,8 +70,12 @@ if (isset($_GET['keywords']) && (isset($_GET['num1']) || isset($_GET['num2']) ||
     $result = $conn->query($qry);
 
     $filtered_products = array();
+    $filtered_prod_titles = array();
 
     while($row = $result->fetch_array()) {
+        if (in_array($row["ProductTitle"], $filtered_prod_titles)) {
+            continue;
+        }
 
         if (isset($_GET["check"]) && $_GET["check"] == "yes") {
             if ($row["Offered"] != 1) {
@@ -111,6 +115,7 @@ if (isset($_GET['keywords']) && (isset($_GET['num1']) || isset($_GET['num2']) ||
             }
         }
 
+        $filtered_prod_titles[] = $row["ProductTitle"];
         $filtered_products[] = $row;
     }
 
