@@ -57,42 +57,73 @@ $MainContent .= "</div>";  // End of 2nd row
 $MainContent .= "</form>";
 
 // The search keyword is sent to server
-if (isset($_GET['keywords']) && (isset($_GET['num1']) && isset($_GET['num2']))) {
-    $SearchText= $_GET["keywords"];
-    $search = "%$_GET[keywords]%";
-    $num1 = $_GET["num1"];
-    $num2 = $_GET["num2"];
+if (isset($_GET['keywords']) && (isset($_GET['num1']) || isset($_GET['num2']) || isset($_GET['check']))) {
 
     // To Do (DIY): Retrieve list of product records with "ProductTitle" 
     // contains the keyword entered by shopper, and display them in a table.
     include_once("mysql_conn.php");
 
-    $qry = "SELECT ProductID, ProductTitle, ProductDesc, Price, OfferedPrice  FROM product WHERE $num2 >= Price AND Price >= $num1 ";
-    if (isset($_GET['check'])) {
-        $qry .= "AND Offered = 1 ";
-        //$msg .= " and on offer:";
-    }
-    else {
-        $qry .= "AND Offered = 0 ";
-        //$msg .= ":";
+    // get all products
+    $qry = "SELECT p.*, ps.SpecVal FROM `product` AS p
+            INNER JOIN ProductSpec as ps ON p.ProductID = ps.ProductID";
+    
+    $result = $conn->query($qry);
+
+    $filtered_products = array();
+
+    while($row = $result->fetch_array()) {
+
+        if (isset($_GET["check"]) && $_GET["check"] == "yes") {
+            if ($row["Offered"] != 1) {
+                continue;
+            }
+        }
+
+        if ($_GET['keywords'] != '') {
+            if (stripos($row["ProductTitle"], $_GET["keywords"]) == FALSE &&
+                stripos($row["ProductDesc"], $_GET["keywords"]) == FALSE &&
+                stripos($row["SpecVal"], $_GET["keywords"]) == FALSE) {
+
+                continue;
+            }
+        }
+
+        // get offered price if there is
+        $price = 0;
+
+        if ($row["Offered"] == 1) {
+            $price = $row["OfferedPrice"];
+        }
+
+        else {
+            $price = $row["Price"];
+        }
+        
+        if ($_GET['num1'] != '') {
+            if ($price < $_GET['num1']) {
+                continue;
+            }
+        }
+    
+        if ($_GET['num2'] != '') {
+            if ($price > $_GET['num2']) {
+                continue;
+            }
+        }
+
+        $filtered_products[] = $row;
     }
 
-    $qry .= "AND ProductID IN (SELECT product.ProductID from product INNER JOIN productspec ON product.ProductID = productspec.ProductID WHERE ProductTitle LIKE ? OR ProductDesc LIKE ? OR SpecVal LIKE ?) ORDER BY ProductTitle ASC ";
-    $stmt = $conn->prepare($qry);
-    $stmt->bind_param("sss", $search, $search, $search);
-    $stmt->execute();
-    $result = $stmt->get_result();
 
-    // Close connection and statement
-    $stmt->close();
+    // Close connection
     $conn->close();
     
-    $MainContent .= "<p style='font-size: 15px; font-weight: bold;'>Search Results for $SearchText: </p>";
+    $MainContent .= "<p style='font-size: 15px; font-weight: bold;'>Search Results for $_GET[keywords]: </p>";
 
     
 
-    if ($result->num_rows > 0) {
-    while ($row = $result->fetch_array())
+    if (count($filtered_products) > 0) {
+    foreach ($filtered_products as $row)
     {
         // Original code
         // $MainContent .= "<p><a href='$product'>$row[ProductTitle]</a></p>";
