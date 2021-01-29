@@ -81,7 +81,7 @@ while ($row = $result->fetch_array())
 if($row["Quantity"] > 0) {
     $quantity = $row['Quantity'];
     $MainContent .= "<form action='cartFunctions.php' method='post'>";
-    $MainContent .= "<input type='hidden' name='productDetails' value='add' />";
+    $MainContent .= "<input type='hidden' name='action' value='add' />";
     $MainContent .= "<input type='hidden' name='product_id' value='$pid' />";
     $MainContent .= "Quantity: <input type='number' name='quantity' value='1' min='1' max= '$quantity' style='width:40px;' required='required' />";
     $MainContent .="<div style='font-style:italic'>In stock:&nbsp$quantity&nbspleft</div>";
