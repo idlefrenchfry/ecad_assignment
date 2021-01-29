@@ -47,7 +47,6 @@ $qry = "SELECT Rank, count(*) AS Occurrences
         GROUP BY Rank";
 
 $result = $conn->query($qry);
-$row = $result->fetch_array();
 
 $rank_no = array(
     1 => 0,
@@ -59,6 +58,7 @@ $rank_no = array(
 
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_array()) {
+        echo $row["Rank"];
         $rank_no[$row["Rank"]] = $row["Occurrences"];
     }
 }
@@ -78,64 +78,18 @@ $MainContent .= "<div class='row'>";
 $MainContent .= "<div style='margin:auto' class='page-title mb-3'>Feedback</div>";
 $MainContent .= "</div>";
 
-/* Submit own review */
-$MainContent .= "<div class='row'>";
-$MainContent .= "<div style='margin:auto' class='page-subtitle mb-3'>Submit your feedback!</div>";
-$MainContent .= "</div>";
-
-$MainContent .= "<form name='register' action='submitFeedback.php' method='post' 
-                onsubmit='return validateForm()' style='margin-bottom: 100px;'>";
-
-// subject
-$MainContent .= "<div class='form-group row'>";
-$MainContent .= "<label class='offset-sm-2 col-sm-1 col-form-label font-weight-bold' for='subject'>Subject:</label>";
-$MainContent .= "<div class='col-sm-7'>";
-$MainContent .= "<input class='form-control' name='subject' id='subject'
-                type='text' required />";
-$MainContent .= "</div>";
-$MainContent .= "</div>";
-
-// rank
-$MainContent .= "<div class='form-group row'>";
-$MainContent .= "<label class='offset-sm-2 col-sm-1 col-form-label font-weight-bold' for='rank'>Rating:</label>";
-$MainContent .= "<div class='col-sm-7'>";
-$MainContent .= "<select class='form-control' name='rank' id='rank' required>";
-$MainContent .= "<option>5</option>";
-$MainContent .= "<option>4</option>";
-$MainContent .= "<option>3</option>";
-$MainContent .= "<option>2</option>";
-$MainContent .= "<option>1</option>";
-$MainContent .= "</select>";
-$MainContent .= "</div>";
-$MainContent .= "</div>";
-
-// content
-$MainContent .= "<div class='form-group row'>";
-$MainContent .= "<label class='offset-sm-2 col-sm-1 col-form-label font-weight-bold' for='content'>Content:</label>";
-$MainContent .= "<div class='col-sm-7'>";
-$MainContent .= "<textarea class='form-control' name='content' id='content'
-                  cols='25' rows='4' required></textarea>";
-$MainContent .= "</div>";
-$MainContent .= "</div>";
-
-$MainContent .= "<div class='form-group row'>";       
-$MainContent .= "<div class='col-sm-9 offset-sm-3'>";
-$MainContent .= "<button class='btn btn-primary' type='submit'>Submit</button>";
-$MainContent .= "</div>";
-$MainContent .= "</div>";
-
-$MainContent .= "</form>";
-
 /* Reviews by others */
 $MainContent .= "<div class='row'>";
 $MainContent .= "<div style='margin:auto' class='page-subtitle mb-3'>Reviews</div>";
 $MainContent .= "</div>";
 
+$MainContent .= "<div class='row' style='margin-bottom: 70px;'>";
+
 // overall feedback rating
-$MainContent .= "<div class='row mb-3'>"; // start of row 1
+$MainContent .= "<div class='col-sm-4'>"; // start of column 1
 
 // -- average user rating
-$MainContent .= "<div class='col-sm-12 col-md-4'>";
+$MainContent .= "<div class='row'>";
 $MainContent .= "<div class='card rounded' style='background-color: #FAFAFA;width: 100%; height: 210px;'>";
 $MainContent .= "<div class='card-body'>"; // start of card body
 $MainContent .= "<h4 class='card-title font-weight-bold'>Average Rating</h4>";
@@ -150,7 +104,6 @@ $MainContent .= "</div>"; // end of card
 $MainContent .= "</div>"; // end of column
 
 // -- rating breakdown
-$MainContent .= "<div class='col-sm-12 col-md-4'>";
 $MainContent .= "<div class='card rounded border-0' style='width: 100%;'>";
 $MainContent .= "<div class='card-body'>"; // start of card body
 $MainContent .= "<h4 class='card-title font-weight-bold'>Rating Breakdown</h4>";
@@ -166,19 +119,6 @@ $rating_colours = array(
 
 for ($rating = 5; $rating > 0; --$rating) {
     $current_rank_no_percentage = ($rank_no[$rating] / $total_no_feedbacks) * 100;
-
-    // $MainContent .= "<div class='float-left'>";
-    // $MainContent .= "<div class='float-left' style='width:35px; line-height:1;'>";
-    // $MainContent .= "<div style='height:9px; margin:5px 0;'>$rating $yellow_star</div>";
-    // $MainContent .= "</div>";
-    // $MainContent .= "<div class='float-left' style='width:230px;'>";
-    // $MainContent .= "<div class='progress' style='height:9px; margin:8px 0;'>";
-    // $MainContent .= "<div class='progress-bar $rating_colours[$rating]' role='progressbar' aria-valuenow='$rating' aria-valuemin='0' aria-valuemax='5' style='width: $current_rank_no_percentage%'>";
-    // $MainContent .= "</div>";
-    // $MainContent .= "</div>";
-    // $MainContent .= "</div>";
-    // $MainContent .= "<div class='float-right' style='margin-left:10px;'>$rank_no[$rating]</div>";
-    // $MainContent .= "</div>";
 
     $MainContent .= "<div class='d-flex'>";
     $MainContent .= "<div style='width:35px; line-height:1;'>";
@@ -203,7 +143,7 @@ $MainContent .= "</div>"; // end of card body
 $MainContent .= "</div>"; // end of card
 $MainContent .= "</div>";
 
-$MainContent .= "</div>"; // end of row 1
+$MainContent .= "<div class='col-sm-8'>";
 
 // all feedback
 for ($i = 0; $i < $total_no_feedbacks; ++$i) {
@@ -237,6 +177,59 @@ for ($i = 0; $i < $total_no_feedbacks; ++$i) {
     $MainContent .= "</div>"; // end of card
     $MainContent .= "</div>"; // end of column
     $MainContent .= "</div>"; // end of row 2
+}
+
+$MainContent .= "</div>"; // end of column
+$MainContent .= "</div>"; // end of feedback row
+
+if (isset($_SESSION["ShopperID"])) {
+    /* Submit own review */
+    $MainContent .= "<div class='row'>";
+    $MainContent .= "<div style='margin:auto' class='page-subtitle mb-3'>Submit your feedback!</div>";
+    $MainContent .= "</div>";
+    
+    $MainContent .= "<form name='register' action='submitFeedback.php' method='post' 
+                    onsubmit='return validateForm()'>";
+    
+    // subject
+    $MainContent .= "<div class='form-group row'>";
+    $MainContent .= "<label class='offset-sm-2 col-sm-1 col-form-label font-weight-bold' for='subject'>Subject:</label>";
+    $MainContent .= "<div class='col-sm-7'>";
+    $MainContent .= "<input class='form-control' name='subject' id='subject'
+                    type='text' required />";
+    $MainContent .= "</div>";
+    $MainContent .= "</div>";
+    
+    // rank
+    $MainContent .= "<div class='form-group row'>";
+    $MainContent .= "<label class='offset-sm-2 col-sm-1 col-form-label font-weight-bold' for='rank'>Rating:</label>";
+    $MainContent .= "<div class='col-sm-7'>";
+    $MainContent .= "<select class='form-control' name='rank' id='rank' required>";
+    $MainContent .= "<option>5</option>";
+    $MainContent .= "<option>4</option>";
+    $MainContent .= "<option>3</option>";
+    $MainContent .= "<option>2</option>";
+    $MainContent .= "<option>1</option>";
+    $MainContent .= "</select>";
+    $MainContent .= "</div>";
+    $MainContent .= "</div>";
+    
+    // content
+    $MainContent .= "<div class='form-group row'>";
+    $MainContent .= "<label class='offset-sm-2 col-sm-1 col-form-label font-weight-bold' for='content'>Content:</label>";
+    $MainContent .= "<div class='col-sm-7'>";
+    $MainContent .= "<textarea class='form-control' name='content' id='content'
+                      cols='25' rows='4' required></textarea>";
+    $MainContent .= "</div>";
+    $MainContent .= "</div>";
+    
+    $MainContent .= "<div class='form-group row'>";       
+    $MainContent .= "<div class='col-sm-9 offset-sm-3'>";
+    $MainContent .= "<button class='btn btn-primary' type='submit'>Submit</button>";
+    $MainContent .= "</div>";
+    $MainContent .= "</div>";
+    
+    $MainContent .= "</form>";
 }
 
 $MainContent .= "</div>"; // end of containing div
