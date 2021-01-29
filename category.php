@@ -22,12 +22,13 @@ $MainContent .= "<div class='row' style='padding:5px'>"; // Start of main conten
 $qry = "SELECT * FROM Category"; //Form SQL to select all categores
 $result = $conn->query($qry); //Execute the SQL statement
 
-$MainContent .= "<div class='card-deck flex-wrap justify-content-center'>"; // Start of card deck
+$MainContent .= "<div class='card-deck d-flex justify-content-start;'>"; // Start of card deck
 
 // TO DO: Alphabetical Order
 
 while ($row = $result->fetch_array()) {
-    $MainContent .= "<div class='card' style='min-width: 250px; max-width:250px; margin-bottom: 10px;'>"; // Start of card
+    //$MainContent .= "<div class='d-flex justify-content-start;'>";
+    $MainContent .= "<div class='card' style='min-width: 18rem; max-width:250px; margin-bottom: 10px;'>"; // Start of card
 
     // Get category details
     $catName = urlencode($row["CatName"]);
@@ -39,14 +40,14 @@ while ($row = $result->fetch_array()) {
     $MainContent .= "<div class='card-body'>"; // Start of card body
     $MainContent .= "<h5 class='card-title'>$row[CatName]</h5>";
     $MainContent .= "<p class='card-text'>$row[CatDesc]</p>";
-    $MainContent .= "<a href='$catProduct' class='btn btn-primary'>See Products</a>";
-
     $MainContent .= "</div>"; // End of card body
+    $MainContent .= "<a href='$catProduct' class='btn btn-primary btn-block'>See Products</a>";
     $MainContent .= "</div>"; // End of card
 }
 
 $MainContent .= "</div>"; // End of card deck
 $MainContent .= "</div>"; // End of main content row
+$MainContent .= "</div>"; // End of d-flex
 
 $conn->close(); // Close database connnection
 $MainContent .= "</div>"; // End of container
