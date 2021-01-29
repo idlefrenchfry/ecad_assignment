@@ -1,15 +1,3 @@
-<style>
-.carousel {
-    width: 100%;
-    background-color: lightgrey;
-}
-
-.carousel-control-next,
-.carousel-control-prev , .carousel-indicators {
-    filter: invert(100%);
-}
-</style>
-
 <?php
 
 session_start();
