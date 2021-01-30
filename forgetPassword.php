@@ -3,11 +3,13 @@
 
 session_start();
 
+// answered security question correctly
 if (isset($_SESSION["forgotPasswordSuccess"])) {
     $MainContent = $_SESSION["forgotPasswordSuccess"];
     unset($_SESSION["forgotPasswordSuccess"]);
 }
 
+// hasn't answered security question correctly
 else {
     $MainContent = "<div style='width:80%; margin:auto;'>";
     $MainContent .= "<form name='forgetpassword' form method='POST'>";
@@ -21,17 +23,21 @@ else {
                      Email Address:</label>";
     $MainContent .= "<div class='col-sm-6'>";
     
+    // if reladed page when getting security question for email,
+    // set value of input to be previously inputted email
     if (isset($_SESSION["forgotPasswordEmail"])) {
         $MainContent .= "<input class='form-control' name='email' id='email'
                         value='$_SESSION[forgotPasswordEmail]' type='email' required />";
         unset($_SESSION["forgotPasswordEmail"]);
     }
 
+    // has not entered registered email
     else {
         $MainContent .= "<input class='form-control' name='email' id='email'
                                 type='email' required />";
     }
 
+    // Error msg if entered unregistered email
     if (isset($_SESSION["forgetPasswordEmailWrong"])) {
         $MainContent .= "<span class='text-danger'>$_SESSION[forgetPasswordEmailWrong]</text>";
         unset($_SESSION["forgetPasswordEmailWrong"]);
@@ -40,6 +46,7 @@ else {
     $MainContent .= "</div>";
     $MainContent .= "</div>";
     
+    // if user entered registered email, display retrieved security question
     if (isset($_SESSION["forgetPasswordQn"])) {
         $MainContent .= "<div class='form-group row'>";
         $MainContent .= "<label class='col-sm-3 col-form-label' for='pwdans'>
@@ -50,6 +57,7 @@ else {
         $MainContent .= "</div>";
         $MainContent .= "</div>";
 
+        // entered the wrong answer
         if(isset($_SESSION["forgotPasswordFailed"])) {
             $MainContent .= "<div class='text-danger offset-sm-3 mb-3' style='padding-left: 15px'>$_SESSION[forgotPasswordFailed]</div>";
             unset($_SESSION["forgotPasswordFailed"]);
@@ -107,9 +115,10 @@ if (isset($_POST['email'])) {
 
     }
     else {
-        $_SESSION["forgetPasswordEmailWrong"] = "<p><span style='color:red;'>Wrong E-mail address!</span>";
+        $_SESSION["forgetPasswordEmailWrong"] = "<p><span style='color:red;'>This e-mail address is not registered!</span>";
     }
     
+    // reload page to show new inputs/error messages
     echo "<meta http-equiv='refresh' content='0'>";
     
 	$conn->close();
