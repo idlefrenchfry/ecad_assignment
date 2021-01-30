@@ -75,7 +75,7 @@ if (isset($_SESSION["Cart"])) {
 			$MainContent .= "<form action='cartFunctions.php' method='post'>";
 			$MainContent .= "<input type='hidden' name='action' value='remove' />";
 			$MainContent .= "<input type='hidden' name='product_id' value='$row[ProductID]' />";
-			$MainContent .= "<input type='image' src='images/trash-can.png' title='Remove Item'/>";
+			$MainContent .= "<input type='image' src='images/trash-can.png' alt='Remove Item'/>";
 			$MainContent .= "</form>";
 			$MainContent .= "</td>";
 			$MainContent .= "</tr>";
