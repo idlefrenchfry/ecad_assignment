@@ -18,8 +18,6 @@ include_once("mysql_conn.php");
 $qry = "SELECT * FROM product WHERE OfferStartDate < CURDATE() AND OfferEndDate> CURDATE()";
 $result = $conn->query($qry);
 
-
-// TO DO: Improve front-end for carousel
 if ($result->num_rows > 0) {
 	$MainContent = "<div class='row'>";
 	$MainContent .= "<div style='margin:auto; font-size: 30px;' class='font-weight-bold mb-3'>On Offer!</div>";

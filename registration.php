@@ -15,13 +15,6 @@ $password = $_POST["password"];
 $forgetPwdQn = $_POST["forgetPwdQn"];
 $forgetPwdAns = $_POST["forgetPwdAns"];
 
-/* TO DO (Ana): Forget Password
-
-// hash password
-// $password = password_hash($_POST["password"], PASSWORD_DEFAULT);
-
-*/
-
 include_once("mysql_conn.php");
 
 // check if email is unique
@@ -61,12 +54,10 @@ if ($stmt->execute()) {
             while ($row = $result->fetch_array()) {
                 $_SESSION["ShopperID"] = $row["ShopperID"];
             }
-        
-            // TO DO (Ana): Style this section
-        
+
             // Display succesful message and shopper ID
-            $MainContent .= "Registration Succesful! <br />";
-            $MainContent .= "Your Shopper ID is $_SESSION[ShopperID] <br />";
+            $MainContent .= "<h3 class='text-success'>Registration Succesful! <br />";
+            $MainContent .= "Your Shopper ID is $_SESSION[ShopperID] <br /></h3>";
         
             // Save the Shopper Name in a session variable
             $_SESSION["ShopperName"] = $name;
