@@ -59,16 +59,14 @@ while ($row = $result->fetch_array())
         $MainContent .= "<h5 class='card-title'>$row[ProductTitle]</h5>";
         $MainContent .= "<span style='font-size:14px; color: grey;'>
                     <del>S$ $formattedPrice </del></span>";
-        $MainContent .= "&nbsp<span style='color:red; font-size:20px; font-weight:700;'>S$ $offerPrice</span>";
-        $MainContent .="<h3 style='color:red; font-weight:bold;'>-%$percentChange</h3>";    
+        $MainContent .= "&nbsp<span style='color:#1daade; font-size:20px; font-weight:700;'>S$ $offerPrice</span>";
+        $MainContent .="<h3 style='color:#e80d8b; font-weight:bold;'>-$percentChange%</h3>";    
 
     }
     else{
          
         $MainContent .= "<h5 class='card-title'>$row[ProductTitle]</h5>";
-        $MainContent .= "<div style='max-height: 100px;'>";
-        $MainContent .= "<p class='card-text text-primary' style=''>S$ $formattedPrice</p>";
-        $MainContent .= "</div>";
+        $MainContent .= "<span style='color:#1daade; font-size:20px; font-weight:700;'>S$ $formattedPrice</span>";
         
     }
     $MainContent .= "</div>"; // End of card body
