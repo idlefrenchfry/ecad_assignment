@@ -34,6 +34,7 @@ $stmt->close();
 $MainContent .= "<div class='card-deck d-flex justify-content-start;'>"; // Start of card deck
 
 // TO DO: Alphabetical Order
+$percentChange = 0;
 
 while ($row = $result->fetch_array()) 
 {
@@ -43,7 +44,7 @@ while ($row = $result->fetch_array())
     // Get product details
     $product = "productDetails.php?pid=$row[ProductID]";
     $formattedPrice = number_format($row["Price"], 2);
-    $offerPrice = number_format($row["OfferedPrice"],1);
+    $offerPrice = number_format($row["OfferedPrice"],2);
     $onOffer = number_format($row["Offered"],1);
     $img = "./Images/products/$row[ProductImage]";
 
@@ -52,19 +53,21 @@ while ($row = $result->fetch_array())
     $MainContent .= "<div class='card-body'>"; // Start of card body
     if ($onOffer == 1)
     {
-         
+        $percentChange = (1 - $formattedPrice / $offerPrice) * 100;
+        $percentChange = round($percentChange, 0);
+        $percentChange = abs($percentChange);
         $MainContent .= "<h5 class='card-title'>$row[ProductTitle]</h5>";
-        $MainContent .= "<span style='font-weight: bold; color: grey;'>
-                    <del>S$ $formattedPrice</del></span>";
-        $MainContent .= "<p class='card-text' style='font-size: 1.3em; color:red; font-weight:bold;'>S$ $offerPrice</p>";
-        $MainContent .="<h3 style='color:red; font-weight:bold;'>On Offer!</h3>";    
+        $MainContent .= "<span style='font-size:14px; color: grey;'>
+                    <del>S$ $formattedPrice </del></span>";
+        $MainContent .= "&nbsp<span style='color:red; font-size:20px; font-weight:700;'>S$ $offerPrice</span>";
+        $MainContent .="<h3 style='color:red; font-weight:bold;'>-%$percentChange</h3>";    
 
     }
     else{
          
         $MainContent .= "<h5 class='card-title'>$row[ProductTitle]</h5>";
         $MainContent .= "<div style='max-height: 100px;'>";
-        $MainContent .= "<p class='card-text text-primary' style='font-size: 1.3em'>S$ $formattedPrice</p>";
+        $MainContent .= "<p class='card-text text-primary' style=''>S$ $formattedPrice</p>";
         $MainContent .= "</div>";
         
     }
