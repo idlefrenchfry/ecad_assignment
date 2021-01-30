@@ -152,7 +152,7 @@ if (isset($_GET['keywords']) && (isset($_GET['num1']) || isset($_GET['num2']) ||
             $MainContent .= "<td><a href=$product><img style='width:10rem; height:10rem' src=$img /></a></td>";
             $MainContent .= "<td><a href='$product'>$row[ProductTitle]</a></td>";
             $MainContent .= "<td style='width: 60%;'>$row[ProductDesc]</td>";
-            $MainContent .= "<td><del>S$"."$row[Price]</del><a style='color:red;'>&nbspS$"."$row[OfferedPrice]</a></td>";
+            $MainContent .= "<td style='width: 10%;'><del>S$"."$row[Price]</del><a style='color:red;'><br/>S$"."$row[OfferedPrice]</a></td>";
             $MainContent .= "</tr>";
             $MainContent .= "</tbody>";
         }
@@ -163,7 +163,7 @@ if (isset($_GET['keywords']) && (isset($_GET['num1']) || isset($_GET['num2']) ||
             $MainContent .= "<td><a href=$product><img style='width:10rem; height:10rem' src=$img /></a></td>";
             $MainContent .= "<td><a href='$product'>$row[ProductTitle]</a></td>";
             $MainContent .= "<td style='width: 60%;'>$row[ProductDesc]</td>";
-            $MainContent .= "<td>S$"."$row[Price]</td>";
+            $MainContent .= "<td style='width: 10%;'>S$"."$row[Price]</td>";
             $MainContent .= "</tr>";
             $MainContent .= "</tbody>";
         }
