@@ -14,9 +14,6 @@ session_start();
 
 // Establish data connection
 include_once("mysql_conn.php");
-$MainContent = "<img src='Images/welcome2egiftr.png'  
-				class='img-fluid' 
-				style='display:block; margin:auto;'/>";
 
 $qry = "SELECT * FROM product WHERE OfferStartDate < CURDATE() AND OfferEndDate> CURDATE()";
 $result = $conn->query($qry);
@@ -24,7 +21,7 @@ $result = $conn->query($qry);
 
 // TO DO: Improve front-end for carousel
 if ($result->num_rows > 0) {
-	$MainContent .= "<div class='row'>";
+	$MainContent = "<div class='row'>";
 	$MainContent .= "<div style='margin:auto; font-size: 30px;' class='font-weight-bold mb-3'>On Offer!</div>";
 	$MainContent .= "</div>";
 
