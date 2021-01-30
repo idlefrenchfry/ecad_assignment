@@ -144,19 +144,34 @@ if (isset($_GET['keywords']) && (isset($_GET['num1']) || isset($_GET['num2']) ||
 
         // code for table display
         // Table format
+        if ($row["Offered"] == 1) {
         
-        $MainContent .= "<tbody>";
-        $product = "productDetails.php?pid=$row[ProductID]";
-        $MainContent .= "<tr>";
-        $MainContent .= "<td><a href='$product'>$row[ProductTitle]</a></td>";
-        $MainContent .= "<td style='width: 60%;'>$row[ProductDesc]</td>";
-        $MainContent .= "<td><del>S$"."$row[Price]</del>S$"."$row[OfferedPrice]</td>";
-        $MainContent .= "</tr>";
+            $MainContent .= "<tbody>";
+            $product = "productDetails.php?pid=$row[ProductID]";
+            $MainContent .= "<tr>";
+            $MainContent .= "<td><a href='$product'>$row[ProductTitle]</a></td>";
+            $MainContent .= "<td style='width: 60%;'>$row[ProductDesc]</td>";
+            $MainContent .= "<td><del>S$"."$row[Price]</del><a style='color:red;'>&nbspS$"."$row[OfferedPrice]</a></td>";
+            $MainContent .= "</tr>";
+            $MainContent .= "</tbody>";
+        }
+        else{
+            $MainContent .= "<tbody>";
+            $product = "productDetails.php?pid=$row[ProductID]";
+            $MainContent .= "<tr>";
+            $MainContent .= "<td><a href='$product'>$row[ProductTitle]</a></td>";
+            $MainContent .= "<td style='width: 60%;'>$row[ProductDesc]</td>";
+            $MainContent .= "<td>S$"."$row[Price]</td>";
+            $MainContent .= "</tr>";
+            $MainContent .= "</tbody>";
+        }
+
+
     }
-    $MainContent .= "</tbody>";
     $MainContent .= "</table>";
 
     }
+   
      else {
          $MainContent .= "<h3 style='color:#f774bc'>No results found, please try again.</h3>";
      }
