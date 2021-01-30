@@ -23,73 +23,54 @@ $result = $conn->query($qry);
 
 
 // TO DO: Improve front-end for carousel
-
-$MainContent .= "<div class='bd-example'>";// start
 if ($result->num_rows > 0) {
 	$MainContent .= "<div class='row'>";
 	$MainContent .= "<div style='margin:auto; font-size: 30px;' class='font-weight-bold mb-3'>On Offer!</div>";
 	$MainContent .= "</div>";
-// the page header and header row of offer
-    $MainContent .= "<div id='carouselOnOffer' class='carousel slide border p-3' style='border-color:#707070 !important;' data-ride='carousel' >";
-    $MainContent .= "<div class='carousel-inner'>";
-    $rowcount = 0;
-    while ($row = $result->fetch_array())
+
+	$MainContent .= "<div class='card-deck'>";// start
+
+    while ($row = $result->fetch_array()) 
 	{
-		$rowcount++;
-		$name = "$row[ProductTitle]";
-		$img = "./Images/Products/$row[ProductImage]";
+
+		$MainContent .= "<div class='card' style='width: 18rem; margin-bottom: 10px;'>"; // Start of card
+
+		// Get product details
 		$product = "productDetails.php?pid=$row[ProductID]";
-		$Quantity=$row["Quantity"];
-		$formattedPrice = number_format($row["Price"],2);
-		$offerend = new DateTime($row["OfferEndDate"]);
-		$today = new DateTime(Date("y-m-d"));
-		$daysleft = $today->diff($offerend)->days;
+		$formattedPrice = number_format($row["Price"], 2);
+		$offerPrice = number_format($row["OfferedPrice"],1);
+		$onOffer = number_format($row["Offered"],1);
+		$img = "./Images/products/$row[ProductImage]";
 
-		$formattedOfferedPrice = number_format($row["OfferedPrice"],2);
-	    if($rowcount==1)
-	    {
-		    $MainContent .= "<div class='carousel-item active'>";
-	    }
-	    else
-	    {
-		    $MainContent .= "<div class='carousel-item'>";
+		// create card content
+		$MainContent .= "<img class='card-img-top' src='$img' alt='Category Image'>";
+		$MainContent .= "<div class='card-body'>"; // Start of card body
+		if ($onOffer == 1)
+		{
+			
+			$MainContent .= "<h5 class='card-title'>$row[ProductTitle]</h5>";
+			$MainContent .= "<span style='font-weight: bold; color: grey;'>
+						<del>S$ $formattedPrice</del></span>";
+			$MainContent .= "<p class='card-text' style='font-size: 1.3em; color:red; font-weight:bold;'>S$ $offerPrice</p>";
+			$MainContent .="<h3 style='color:red; font-weight:bold;'>On Offer!</h3>";    
+
 		}
+		else{
+			
+			$MainContent .= "<h5 class='card-title'>$row[ProductTitle]</h5>";
+			$MainContent .= "<div style='max-height: 100px;'>";
+			$MainContent .= "<p class='card-text text-primary' style='font-size: 1.3em'>S$ $formattedPrice</p>";
+			$MainContent .= "</div>";
+			
+		}
+		$MainContent .= "</div>"; // End of card body
+		$MainContent .= "<a href='$product' class='btn btn-primary btn-block'>See Details</a>";
+		$MainContent .= "</div>"; // End of card
 		
-		$MainContent .= "<div class='d-flex justify-content-center align-items-center'>";
-		$MainContent .= "<div class='image'><a href='$product'><img class='d-block mx-auto' src='$img' alt='$name'></a></div>";
-		$MainContent .= "<div class='text text-center'>";
-		$MainContent .= "<div class='top'>
-		<div class='text1'>Quick! Only $Quantity left! Offer ends in $daysleft days!</div></div>";
-		$MainContent .= "<div class='middle'>
-		<div class='text'>$name</div>
-		<div class='text'><del>S$$formattedPrice</del></div>
-		<div class='text' style='color:red;'>S$$formattedOfferedPrice</div>
-		</div>";
-		$MainContent .= "</div>";
-		$MainContent .= "</div>";
-
-		$MainContent .= "</div>";
-    }
+	}
     
-    $MainContent .="</div>";
-    
-
-
-    
-	$MainContent .= "<a class='carousel-control-prev' href='#carouselOnOffer' role='button' data-slide='prev'>";
-	$MainContent .= "<span class='carousel-control-prev-icon' aria-hidden='true'></span>";
-	$MainContent .= "<span class='sr-only'>Previous</span></a>";
-	$MainContent .= "<a class='carousel-control-next' href='#carouselOnOffer' role='button' data-slide='next'>";
-	$MainContent .= "<span class='carousel-control-next-icon' aria-hidden='true'></span>";
-    $MainContent .= "<span class='sr-only'>Next</span>
-                    </a>";
-    
-    $MainContent .= "</div>";
-    
-    
-
+	$MainContent .= "</div>"; // End of card deck
 }
-$MainContent .= "</div>";//end carousel 
 
 $conn->close(); // Close database connnection     
 
