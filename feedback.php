@@ -170,8 +170,8 @@ for ($i = 0; $i < $total_no_feedbacks; ++$i) {
     }
 
     // feedback content
-    $dateCreated = date_create_from_format("Y-m-d H:m:s", $feedback["DateTimeCreated"]);
-    $dateCreated = date_format($dateCreated, "Y/m/d");
+    $dateCreated = new DateTime($feedback["DateTimeCreated"]);
+    $dateCreated = $dateCreated->format('Y-m-d');
     // $dateCreated = $dateCreated.getDate() + "/" + $dateCreated.getMonth() + "/" + $dateCreated.getYear();
     $MainContent .= "<div class='card-text mt-3'><u>$feedback[Name]</u><br />$dateCreated<br />$feedback[Content]</div>";
 
