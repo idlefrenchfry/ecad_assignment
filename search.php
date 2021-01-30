@@ -128,13 +128,7 @@ if (isset($_GET['keywords']) && (isset($_GET['num1']) || isset($_GET['num2']) ||
     
 
     if (count($filtered_products) > 0) {
-    foreach ($filtered_products as $row)
-    {
-        // Original code
-        // $MainContent .= "<p><a href='$product'>$row[ProductTitle]</a></p>";
 
-        // code for table display
-        // Table format
         $MainContent .= "<table class='table table-striped'>";
         $MainContent .= "<thead class='thead-dark'>";
         $MainContent .= "<tr>";
@@ -143,6 +137,14 @@ if (isset($_GET['keywords']) && (isset($_GET['num1']) || isset($_GET['num2']) ||
         $MainContent .= "<th scope='col'>Price</th>";
         $MainContent .= "</tr>";
         $MainContent .= "</thead>";
+    foreach ($filtered_products as $row)
+    {
+        // Original code
+        // $MainContent .= "<p><a href='$product'>$row[ProductTitle]</a></p>";
+
+        // code for table display
+        // Table format
+        
         $MainContent .= "<tbody>";
         $product = "productDetails.php?pid=$row[ProductID]";
         $MainContent .= "<tr>";
@@ -150,9 +152,9 @@ if (isset($_GET['keywords']) && (isset($_GET['num1']) || isset($_GET['num2']) ||
         $MainContent .= "<td style='width: 60%;'>$row[ProductDesc]</td>";
         $MainContent .= "<td><del>S$"."$row[Price]</del>S$"."$row[OfferedPrice]</td>";
         $MainContent .= "</tr>";
-        $MainContent .= "</tbody>";
-        $MainContent .= "</table>";
     }
+    $MainContent .= "</tbody>";
+    $MainContent .= "</table>";
 
     }
      else {

@@ -57,14 +57,13 @@ if ($result->num_rows > 0) {
 		
 		$MainContent .= "<div class='d-flex justify-content-center align-items-center'>";
 		$MainContent .= "<div class='image'><a href='$product'><img class='d-block mx-auto' src='$img' alt='$name'></a></div>";
-
 		$MainContent .= "<div class='text text-center'>";
 		$MainContent .= "<div class='top'>
 		<div class='text1'>Quick! Only $Quantity left! Offer ends in $daysleft days!</div></div>";
 		$MainContent .= "<div class='middle'>
 		<div class='text'>$name</div>
-		<div class='text'><s>S$$formattedPrice</s></div>
-		<div class='text'>S$$formattedOfferedPrice</div>
+		<div class='text'><del>S$$formattedPrice</del></div>
+		<div class='text' style='color:red;'>S$$formattedOfferedPrice</div>
 		</div>";
 		$MainContent .= "</div>";
 		$MainContent .= "</div>";
@@ -95,7 +94,6 @@ $MainContent .= "</div>";//end carousel
 $conn->close(); // Close database connnection     
 
 
-//$MainContent = "<div><img src='Images/welcome2egiftr.png'  class='img-fluid' style='display:block; margin:auto;'/></div>";
 
 include("MasterTemplate.php"); 
 ?>
