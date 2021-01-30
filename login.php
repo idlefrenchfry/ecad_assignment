@@ -32,7 +32,7 @@ $MainContent .= "</div>";
 // 4th Row - Login Button
 $MainContent .= "<div class='form-group row'>";
 $MainContent .= "<div class='col-sm-9 offset-sm-3'>";
-$MainContent .= "<button class='btn btn-primary' type='submit'>Login Button</button>";
+$MainContent .= "<button class='btn btn-primary' type='submit'>Login</button>";
 $MainContent .= "<p>Please <a href='register.php'>sign up</a> if you do not have an account.</p>";
 $MainContent .= "<p><a href='forgetPassword.php'>Forgot Password</a></p>";
 
