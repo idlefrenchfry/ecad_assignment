@@ -125,13 +125,12 @@ if (isset($_GET['keywords']) && (isset($_GET['num1']) || isset($_GET['num2']) ||
     
     $MainContent .= "<p style='font-size: 15px; font-weight: bold;'>Search Results for $_GET[keywords]: </p>";
 
-    
-
     if (count($filtered_products) > 0) {
 
         $MainContent .= "<table class='table table-striped'>";
         $MainContent .= "<thead class='thead-dark'>";
         $MainContent .= "<tr>";
+        $MainContent .= "<th scope='col'></th>";
         $MainContent .= "<th scope='col'>Title</th>";
         $MainContent .= "<th scope='col'>Description</th>";
         $MainContent .= "<th scope='col'>Price</th>";
@@ -144,11 +143,13 @@ if (isset($_GET['keywords']) && (isset($_GET['num1']) || isset($_GET['num2']) ||
 
         // code for table display
         // Table format
+        $img = "./Images/products/$row[ProductImage]";
         if ($row["Offered"] == 1) {
         
             $MainContent .= "<tbody>";
             $product = "productDetails.php?pid=$row[ProductID]";
             $MainContent .= "<tr>";
+            $MainContent .= "<td><a href=$product><img style='width:10rem; height:10rem' src=$img /></a></td>";
             $MainContent .= "<td><a href='$product'>$row[ProductTitle]</a></td>";
             $MainContent .= "<td style='width: 60%;'>$row[ProductDesc]</td>";
             $MainContent .= "<td><del>S$"."$row[Price]</del><a style='color:red;'>&nbspS$"."$row[OfferedPrice]</a></td>";
@@ -159,6 +160,7 @@ if (isset($_GET['keywords']) && (isset($_GET['num1']) || isset($_GET['num2']) ||
             $MainContent .= "<tbody>";
             $product = "productDetails.php?pid=$row[ProductID]";
             $MainContent .= "<tr>";
+            $MainContent .= "<td><a href=$product><img style='width:10rem; height:10rem' src=$img /></a></td>";
             $MainContent .= "<td><a href='$product'>$row[ProductTitle]</a></td>";
             $MainContent .= "<td style='width: 60%;'>$row[ProductDesc]</td>";
             $MainContent .= "<td>S$"."$row[Price]</td>";
