@@ -66,10 +66,6 @@ $MainContent .= "<div style='margin:auto' class='page-title mb-3'>Feedback</div>
 $MainContent .= "</div>";
 
 /* Reviews by others */
-$MainContent .= "<div class='row'>";
-$MainContent .= "<div style='margin:auto' class='page-subtitle mb-3'>Reviews</div>";
-$MainContent .= "</div>";
-
 $MainContent .= "<div class='row' style='margin-bottom: 70px;'>";
 
 // overall feedback rating
@@ -77,7 +73,7 @@ $MainContent .= "<div class='col-sm-4'>"; // start of column 1
 
 // -- average user rating
 $MainContent .= "<div class='row'>";
-$MainContent .= "<div class='card rounded' style='background-color: #FAFAFA;width: 100%; height: 210px;'>";
+$MainContent .= "<div class='card rounded-0' style='background-color: #FAFAFA;width: 100%; height: 210px;'>";
 $MainContent .= "<div class='card-body'>"; // start of card body
 $MainContent .= "<h4 class='card-title font-weight-bold'>Average Rating</h4>";
 $MainContent .= "<p><span style='font-weight: bold; font-size: 1.3rem'>$avg_rank</span> <span style='font-size:1.1rem'>/ 5</span></p>";
@@ -88,10 +84,11 @@ $MainContent .= "<div class='progress-bar bg-warning' role='progressbar' style='
 $MainContent .= "</div>"; // end of progress bar
 $MainContent .= "</div>"; // end of card body
 $MainContent .= "</div>"; // end of card
-$MainContent .= "</div>"; // end of column
+$MainContent .= "</div>"; // end of row
 
 // -- rating breakdown
-$MainContent .= "<div class='card rounded border-0' style='width: 100%;'>";
+$MainContent .= "<div class='row'>";
+$MainContent .= "<div class='card border-0 rounded-0' style='width: 100%;'>";
 $MainContent .= "<div class='card-body'>"; // start of card body
 $MainContent .= "<h4 class='card-title font-weight-bold'>Rating Breakdown</h4>";
 
@@ -128,7 +125,15 @@ for ($rating = 5; $rating > 0; --$rating) {
 
 $MainContent .= "</div>"; // end of card body
 $MainContent .= "</div>"; // end of card
+$MainContent .= "</div>"; // end of row
+
+$MainContent .= "<div class='row mt-3'>";
+$MainContent .= "<button type='button' class='btn btn-primary d-block' style='margin: auto;'  data-toggle='modal' data-target='#feedbackFormModal'>";
+$MainContent .= "Submit your own feedback!";
+$MainContent .= "</button>";
 $MainContent .= "</div>";
+
+$MainContent .= "</div>"; // end of overall breakdown column
 
 $MainContent .= "<div class='col-sm-8'>";
 
@@ -170,18 +175,29 @@ $MainContent .= "</div>"; // end of column
 $MainContent .= "</div>"; // end of feedback row
 
 if (isset($_SESSION["ShopperID"])) {
-    /* Submit own review */
-    $MainContent .= "<div class='row'>";
-    $MainContent .= "<div style='margin:auto' class='page-subtitle mb-3'>Submit your feedback!</div>";
-    $MainContent .= "</div>";
+
     
+
+    // Modal
+    $MainContent .= "<div class='modal fade' id='feedbackFormModal' tabindex='-1' role='dialog' aria-labelledby='feedbackFormModalLabel' aria-hidden='true'>";
+    $MainContent .= "<div class='modal-dialog' role='document'>";
+    $MainContent .= "<div class='modal-content'>";
+    $MainContent .= "<div class='modal-header'>";
+    $MainContent .= "<h5 class='modal-title' id='feedbackFormModalLabel'>Submit your feedback!</h5>";
+    $MainContent .= "<button type='button' class='close' data-dismiss='modal' aria-label='Close'>";
+    $MainContent .= "<span aria-hidden='true'>&times;</span>";
+    $MainContent .= "</button>";
+    $MainContent .= "</div>";
+    $MainContent .= "<div class='modal-body'>";
+
+    /* Submit own review */
     $MainContent .= "<form name='register' action='submitFeedback.php' method='post' 
                     onsubmit='return validateForm()'>";
     
     // subject
     $MainContent .= "<div class='form-group row'>";
-    $MainContent .= "<label class='offset-sm-2 col-sm-1 col-form-label font-weight-bold' for='subject'>Subject:</label>";
-    $MainContent .= "<div class='col-sm-7'>";
+    $MainContent .= "<label class='col-sm-3 col-form-label font-weight-bold' for='subject'>Subject:</label>";
+    $MainContent .= "<div class='col-sm-9'>";
     $MainContent .= "<input class='form-control' name='subject' id='subject'
                     type='text' required />";
     $MainContent .= "</div>";
@@ -189,8 +205,8 @@ if (isset($_SESSION["ShopperID"])) {
     
     // rank
     $MainContent .= "<div class='form-group row'>";
-    $MainContent .= "<label class='offset-sm-2 col-sm-1 col-form-label font-weight-bold' for='rank'>Rating:</label>";
-    $MainContent .= "<div class='col-sm-7'>";
+    $MainContent .= "<label class='col-sm-3 col-form-label font-weight-bold' for='rank'>Rating:</label>";
+    $MainContent .= "<div class='col-sm-9'>";
     $MainContent .= "<select class='form-control' name='rank' id='rank' required>";
     $MainContent .= "<option>5</option>";
     $MainContent .= "<option>4</option>";
@@ -203,8 +219,8 @@ if (isset($_SESSION["ShopperID"])) {
     
     // content
     $MainContent .= "<div class='form-group row'>";
-    $MainContent .= "<label class='offset-sm-2 col-sm-1 col-form-label font-weight-bold' for='content'>Content:</label>";
-    $MainContent .= "<div class='col-sm-7'>";
+    $MainContent .= "<label class='col-sm-3 col-form-label font-weight-bold' for='content'>Content:</label>";
+    $MainContent .= "<div class='col-sm-9'>";
     $MainContent .= "<textarea class='form-control' name='content' id='content'
                       cols='25' rows='4' required></textarea>";
     $MainContent .= "</div>";
@@ -212,11 +228,19 @@ if (isset($_SESSION["ShopperID"])) {
     
     $MainContent .= "<div class='form-group row'>";       
     $MainContent .= "<div class='col-sm-9 offset-sm-3'>";
-    $MainContent .= "<button class='btn btn-primary' type='submit'>Submit</button>";
     $MainContent .= "</div>";
     $MainContent .= "</div>";
     
+
+    $MainContent .= "</div>";
+    $MainContent .= "<div class='modal-footer'>";
+    $MainContent .= "<button type='button' class='btn btn-secondary' data-dismiss='modal'>Close</button>";
+    $MainContent .= "<button type='submit' class='btn btn-primary'>Save changes</button>";
+    $MainContent .= "</div>";
     $MainContent .= "</form>";
+    $MainContent .= "</div>";
+    $MainContent .= "</div>";
+    $MainContent .= "</div>";
 }
 
 $MainContent .= "</div>"; // end of containing div
