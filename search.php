@@ -23,37 +23,38 @@ session_start();
 $MainContent = "<div style='width:80%; margin:auto;'>"; // Container
 $MainContent .= "<form name='frmSearch' method='get' action=''>";
 $MainContent .= "<div class='form-group row'>"; // 1st row
-$MainContent .= "<div class='col-sm-9 offset-sm-3'>";
+$MainContent .= "<div class='col-sm-9 '>";
 $MainContent .= "<span class='page-title'>Product Search</span>";
 $MainContent .= "</div>";
 $MainContent .= "</div>"; // End of 1st row
 
 $MainContent .= "<div class='form-group row'>"; // 2nd row
 $MainContent .= "<label for='keywords' 
-                  class='col-sm-3 col-form-label'>Product Title:</label>";
+                  class='col-sm-3 col-form-label'>Product Name /Description:</label>";
 $MainContent .= "<div class='col-sm-6'>";
 $MainContent .= "<input class='form-control' name='keywords' id='keywords' 
                   type='search' required/>";
 $MainContent .= "</div>";
 
 $MainContent .= "<div class='col-sm-3'>";
-$MainContent .= "<button type='submit'>Search</button>";
+$MainContent .= "<button class='btn btn-primary' type='submit'>Search</button>";
 $MainContent .= "</div>";
 
+$MainContent .= "</div>";  // End of 2nd row
+
+$MainContent .= "<div class='form-group row'>"; // 3rd row
 $MainContent .= "<div class='col-sm-9 offset-sm-3'>";
 $MainContent .= "<br><label for='myCheck'>On Offer</label>";
 $MainContent .= "&nbsp<input type='checkbox' id='check' name='check' value='yes'>";
 $MainContent .= "</div>";
+$MainContent .= "</div>"; // End of 3rd row
+
 
 $MainContent .= "<div class='col-sm-9 offset-sm-3'>";
-$MainContent .= "<div class='price-slider'><span>Price Range:</br>";
-$MainContent .= "<input type='number' label for='num1' name='num1' placeholder='1' min='0' max='200' />     to  ";
-$MainContent .= "<input type='number' label for='num2' name='num2' placeholder='160' min='0' max='200' /></span></br>";
+$MainContent .= "<span>Price Range:</span>";
+$MainContent .= "<br><input type='number' label for='num1' name='num1' placeholder='1' min='0' max='200' />     to  ";
+$MainContent .= "<input type='number' label for='num2' name='num2' placeholder='160' min='0' max='200' />";
 $MainContent .= "</div>";
-$MainContent .= "</div>";
-
-
-$MainContent .= "</div>";  // End of 2nd row
 $MainContent .= "</form>";
 
 // The search keyword is sent to server
@@ -123,10 +124,10 @@ if (isset($_GET['keywords']) && (isset($_GET['num1']) || isset($_GET['num2']) ||
     // Close connection
     $conn->close();
     
-    $MainContent .= "<p style='font-size: 15px; font-weight: bold;'>Search Results for $_GET[keywords]: </p>";
+    
 
     if (count($filtered_products) > 0) {
-
+        $MainContent .= "<p style='font-size: 15px; font-weight: bold;'>Search Results for $_GET[keywords]: </p>";
         $MainContent .= "<table class='table table-striped'>";
         $MainContent .= "<thead class='thead-dark'>";
         $MainContent .= "<tr>";
@@ -175,7 +176,11 @@ if (isset($_GET['keywords']) && (isset($_GET['num1']) || isset($_GET['num2']) ||
     }
    
      else {
-         $MainContent .= "<h3 style='color:#f774bc'>No results found, please try again.</h3>";
+        $MainContent .= "<div class='col-sm-9'>";
+        $MainContent .= "<p style='font-size: 20px;'>Oops, we can't find any search results for <a style='font-weight:bold'>$_GET[keywords].</a> </p>";
+        $MainContent .= "<br><p style='font-size: 20px;'>Feel free to email us at <a href='mailto:mamaya@np.edu.sg'>egiftr@np.edu.sg</a> for more product details.</p>";
+        $MainContent .= "<br><p style='font-size: 20px;'>Or you can subscribe to us for more latest updates!</p>";
+        $MainContent .= "</div>";
      }
     
 	// To Do (DIY): End of Code
