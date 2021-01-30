@@ -106,7 +106,7 @@ for ($rating = 5; $rating > 0; --$rating) {
 
     $MainContent .= "<div class='d-flex'>";
     $MainContent .= "<div style='width:35px; line-height:1;'>";
-    $MainContent .= "<div class='d-flex' style='height:9px; margin:5px 0;'><span>$rating</span> <span>$yellow_star</span></div>";
+    $MainContent .= "<div class='d-flex' style='height:9px; margin:5px 0;'><span class='d-block mr-1'>$rating</span> <span>$yellow_star</span></div>";
     $MainContent .= "</div>";
 
     $MainContent .= "<div style='width:230px;'>";
@@ -127,9 +127,16 @@ $MainContent .= "</div>"; // end of card body
 $MainContent .= "</div>"; // end of card
 $MainContent .= "</div>"; // end of row
 
+$disabled = "disabled";
+$formButtonMsg = "Log in to submit feedback!";
+if (isset($_SESSION["ShopperID"])) {
+    $disabled = "";
+    $formButtonMsg = "Submit your own feedback!";
+}
+
 $MainContent .= "<div class='row mt-3'>";
-$MainContent .= "<button type='button' class='btn btn-primary d-block' style='margin: auto;'  data-toggle='modal' data-target='#feedbackFormModal'>";
-$MainContent .= "Submit your own feedback!";
+$MainContent .= "<button $disabled type='button' class='btn btn-primary d-block' style='margin: auto;'  data-toggle='modal' data-target='#feedbackFormModal'>";
+$MainContent .= $formButtonMsg;
 $MainContent .= "</button>";
 $MainContent .= "</div>";
 
@@ -163,7 +170,10 @@ for ($i = 0; $i < $total_no_feedbacks; ++$i) {
     }
 
     // feedback content
-    $MainContent .= "<div class='card-text mt-3'><u>$feedback[Name]</u><br />$feedback[Content]</div>";
+    $dateCreated = date_create_from_format("Y-m-d H:m:s", $feedback["DateTimeCreated"]);
+    $dateCreated = date_format($dateCreated, "Y/m/d");
+    // $dateCreated = $dateCreated.getDate() + "/" + $dateCreated.getMonth() + "/" + $dateCreated.getYear();
+    $MainContent .= "<div class='card-text mt-3'><u>$feedback[Name]</u><br />$dateCreated<br />$feedback[Content]</div>";
 
     $MainContent .= "</div>"; // end of card body
     $MainContent .= "</div>"; // end of card
