@@ -84,9 +84,9 @@ if (isset($_GET['keywords']) && (isset($_GET['num1']) || isset($_GET['num2']) ||
         }
 
         if ($_GET['keywords'] != '') {
-            if (stripos($row["ProductTitle"], $_GET["keywords"]) == FALSE &&
-                stripos($row["ProductDesc"], $_GET["keywords"]) == FALSE &&
-                stripos($row["SpecVal"], $_GET["keywords"]) == FALSE) {
+            if (stripos($row["ProductTitle"], $_GET["keywords"]) === FALSE &&
+                stripos($row["ProductDesc"], $_GET["keywords"]) === FALSE &&
+                stripos($row["SpecVal"], $_GET["keywords"]) === FALSE) {
 
                 continue;
             }
