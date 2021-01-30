@@ -3,11 +3,11 @@
 session_start();
 
 // Content to be 60% container width
-$MainContent = "<div style='width:100%; margin:auto;'>";
+$MainContent = "<div style='width:90%; margin:auto;'>";
 
 // Page Header
-$MainContent .= "<div class='row' style='padding:5px; text-align:center;'>";
-$MainContent .= "<div class='col-12'>";
+$MainContent .= "<div class='row' style='padding:5px;'>";
+$MainContent .= "<div class='row'>";
 $MainContent .= "<span class='page-title'>$_GET[catName]</span>";
 $MainContent .= "</div>";
 $MainContent .= "</div>";
