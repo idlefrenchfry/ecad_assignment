@@ -28,7 +28,7 @@ if ($result->num_rows > 0) {
     while ($row = $result->fetch_array()) 
 	{
 
-		$MainContent .= "<div class='card' style='width: 18rem; margin-bottom: 10px;'>"; // Start of card
+		$MainContent .= "<div class='card' style='max-width: 18rem; margin-bottom: 10px;'>"; // Start of card
 
 		// Get product details
 		$product = "productDetails.php?pid=$row[ProductID]";
@@ -37,30 +37,37 @@ if ($result->num_rows > 0) {
 		$onOffer = number_format($row["Offered"],1);
 		$img = "./Images/products/$row[ProductImage]";
 
-		// create card content
-		$MainContent .= "<img class='card-img-top' src='$img' alt='Category Image'>";
-		$MainContent .= "<div class='card-body'>"; // Start of card body
-		if ($onOffer == 1)
-		{
-			
-			$MainContent .= "<h5 class='card-title'>$row[ProductTitle]</h5>";
-			$MainContent .= "<span style='font-weight: bold; color: grey;'>
-						<del>S$ $formattedPrice</del></span>";
-			$MainContent .= "<p class='card-text' style='font-size: 1.3em; color:red; font-weight:bold;'>S$ $offerPrice</p>";
-			$MainContent .="<h3 style='color:red; font-weight:bold;'>On Offer!</h3>";    
+		// Get product details
+        $product = "productDetails.php?pid=$row[ProductID]";
+        $formattedPrice = number_format($row["Price"], 2);
+        $offerPrice = number_format($row["OfferedPrice"],2);
+        $onOffer = number_format($row["Offered"],1);
+        $img = "./Images/products/$row[ProductImage]";
 
-		}
-		else{
-			
-			$MainContent .= "<h5 class='card-title'>$row[ProductTitle]</h5>";
-			$MainContent .= "<div style='max-height: 100px;'>";
-			$MainContent .= "<p class='card-text text-primary' style='font-size: 1.3em'>S$ $formattedPrice</p>";
-			$MainContent .= "</div>";
-			
-		}
-		$MainContent .= "</div>"; // End of card body
-		$MainContent .= "<a href='$product' class='btn btn-primary btn-block'>See Details</a>";
-		$MainContent .= "</div>"; // End of card
+        // create card content
+        $MainContent .= "<img class='card-img-top' src='$img' alt='Category Image'>";
+        $MainContent .= "<div class='card-body'>"; // Start of card body
+        if ($onOffer == 1)
+        {
+            $percentChange = (1 - $formattedPrice / $offerPrice) * 100;
+            $percentChange = round($percentChange, 0);
+            $percentChange = abs($percentChange);
+            $MainContent .= "<h5 class='card-title'>$row[ProductTitle]</h5>";
+            $MainContent .= "<span style='font-size:14px; color: grey;'>
+                        <del>S$ $formattedPrice </del></span>";
+            $MainContent .= "&nbsp<span style='color:#1daade; font-size:20px; font-weight:700;'>S$ $offerPrice</span>";
+            $MainContent .="<h3 style='color:#e80d8b; font-weight:bold;'>-$percentChange%</h3>";    
+
+        }
+        else{
+            
+            $MainContent .= "<h5 class='card-title'>$row[ProductTitle]</h5>";
+            $MainContent .= "<span style='color:#1daade; font-size:20px; font-weight:700;'>S$ $formattedPrice</span>";
+            
+        }
+        $MainContent .= "</div>"; // End of card body
+        $MainContent .= "<a href='$product' class='btn btn-primary btn-block'>See Details</a>";
+        $MainContent .= "</div>"; // End of card
 		
 	}
     
