@@ -134,7 +134,8 @@ $MainContent .= "<label class='col-sm-3 col-form-label' for='password'>
                  Password:  <span style='color:red;font-size:15px;'>*</span></label>";
 $MainContent .= "<div class='col-sm-9'>";
 $MainContent .= "<input class='form-control' name='password' id='password'
-                type='password' required />";
+                type='password' pattern='(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}' required />";
+$MainContent .= "<small id='pwdHelp' class='form-text text-muted'>Please use a password of min length 8, at least 1 upper case letter, and 1 number</small>";
 $MainContent .= "</div>";
 $MainContent .= "</div>";
 
