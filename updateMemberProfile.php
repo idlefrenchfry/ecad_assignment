@@ -11,6 +11,8 @@ $address = $_POST["address"];
 $country = $_POST["country"];
 $phone = "(65) " . $_POST["ph"];
 $email = $_POST["email"];
+$pwdqn = $_POST["forgetPwdQn"];
+$pwdans = $_POST["forgetPwdAns"];
 
 // Establish database connection
 include_once("mysql_conn.php");
@@ -30,6 +32,8 @@ if ($stmt->execute()) {
         $_SESSION["updateCountry"] = $country;
         $_SESSION["updatePhone"] = $_POST["ph"];
         $_SESSION["updateEmail"] = $email;
+        $_SESSION["updateForgetQn"] = $pwdqn;
+        $_SESSION["updateForgetAns"] = $pwdans;
 
         $stmt->close();
         $conn->close();
@@ -40,11 +44,12 @@ if ($stmt->execute()) {
     else {
         $qry = "UPDATE Shopper
                 SET Name = ?, BirthDate = ?, Address = ?, 
-                    Country = ?, Phone = ?, Email = ?
+                    Country = ?, Phone = ?, Email = ?,
+                    PwdQuestion = ?, PwdAnswer = ?
                 WHERE ShopperID = ?";
         
         $stmt = $conn->prepare($qry);
-        $stmt->bind_param("ssssssi", $name, $dob, $address, $country, $phone, $email, $_SESSION["ShopperID"]);
+        $stmt->bind_param("ssssssssi", $name, $dob, $address, $country, $phone, $email, $pwdqn, $pwdans, $_SESSION["ShopperID"]);
         
         if ($stmt->execute()) { // SQL Statement executed succesfully
             $_SESSION["ShopperName"] = $name;
