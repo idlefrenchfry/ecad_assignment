@@ -174,7 +174,7 @@ if (isset($_GET['keywords']) && (isset($_GET['num1']) || isset($_GET['num2']) ||
      else {
         $MainContent .= "<div class='col-sm-9'>";
         $MainContent .= "<p style='font-size: 20px;'>Oops, we can't find any search results for <a style='font-weight:bold'>$_GET[keywords].</a> </p>";
-        $MainContent .= "<br><p style='font-size: 20px;'>Feel free to email us at <a href='mailto:mamaya@np.edu.sg'>egiftr@np.edu.sg</a> for more product details.</p>";
+        $MainContent .= "<br><p style='font-size: 20px;'>Feel free to email us at <a href='mailto:egiftr@np.edu.sg'>egiftr@np.edu.sg</a> for more product details.</p>";
         $MainContent .= "<br><p style='font-size: 20px;'>Or you can subscribe to us for more latest updates!</p>";
         $MainContent .= "</div>";
      }

@@ -46,7 +46,7 @@
                 <div class="col-sm-12" style="text-align: right;">
                     <hr />
                     Do you need help? Please email to:
-                    <a href="mailto:mamaya@np.edu.sg">egiftr@np.edu.sg</a>
+                    <a href="mailto:egiftr@np.edu.sg">egiftr@np.edu.sg</a>
                     <p style="font-size: 12px">&copy;Copyright by E-Giftr Group</p>
                 </div>
             </div>  
