@@ -60,7 +60,7 @@ while ($row = $result->fetch_array())
         $MainContent .= "<span style='font-size:14px; color: grey;'>
                     <del>S$ $formattedPrice </del></span>";
         $MainContent .= "&nbsp<span style='color:#1daade; font-size:20px; font-weight:700;'>S$ $offerPrice</span>";
-        $MainContent .="<h3 style='color:#e80d8b; font-weight:bold;'>-$percentChange%</h3>";    
+        $MainContent .="<h3 style='color:#e80d8b; font-weight:bold;'>-$percentChange% On Offer</h3>";    
 
     }
     else{
