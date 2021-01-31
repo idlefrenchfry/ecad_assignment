@@ -7,15 +7,12 @@ function validateForm()
         return false;
     }
 
-    let today = new Date()
-    today.setHours(0)
-    today.setMinutes(0)
-    today.setSeconds(0)
-    today.setMilliseconds(0)
+    let minDate = new Date()
+    minDate.setYear(minDate.getFullYear() - 15)
 
-    // check if date of birth is today or after
-    if (new Date(document.register.dob.value) >= today) {
-        alert("Date of birth cannot be today / after today!")
+    // check if date of birth indicates less than 15 y/o
+    if (new Date(document.register.dob.value) > minDate) {
+        alert("You must be at least 15 to sign up!")
         return false;
     }
 
@@ -74,16 +71,16 @@ $MainContent .= "</div>";
 
 // Name
 $MainContent .= "<div class='form-group row'>";
-$MainContent .= "<label class='col-sm-3 col-form-label' for='name'>Name:</label>";
+$MainContent .= "<label class='col-sm-3 col-form-label' for='name'>Name: <span style='color:red;font-size:15px;'>*</span></label>";
 $MainContent .= "<div class='col-sm-9'>";
 $MainContent .= "<input class='form-control' name='name' id='name'
-                  value='$name' type='text' required /> (required)";
+                  value='$name' type='text' required />";
 $MainContent .= "</div>";
 $MainContent .= "</div>";
 
 // Date of Birth
 $MainContent .= "<div class='form-group row'>";
-$MainContent .= "<label class='col-sm-3 col-form-label' for='dob'>Date of Birth:</label>";
+$MainContent .= "<label class='col-sm-3 col-form-label' for='dob'>Date of Birth:  <span style='color:red;font-size:15px;'>*</span></label>";
 $MainContent .= "<div class='col-sm-9'>";
 $MainContent .= "<input class='form-control' name='dob' id='dob' 
                   value='$dob' type='date' />";
@@ -118,10 +115,10 @@ $MainContent .= "</div>";
 // Email Address
 $MainContent .= "<div class='form-group row'>";
 $MainContent .= "<label class='col-sm-3 col-form-label' for='email'>
-                 Email Address:</label>";
+                 Email Address:  <span style='color:red;font-size:15px;'>*</span></label>";
 $MainContent .= "<div class='col-sm-9'>";
 $MainContent .= "<input class='form-control' name='email' id='email'
-                  value='$email' type='email' required /> (required)";
+                  value='$email' type='email' required />";
 
 // Same email message
 if (isset($_SESSION["registerEmailFailedMsg"])) {
@@ -134,20 +131,20 @@ $MainContent .= "</div>";
 // Password
 $MainContent .= "<div class='form-group row'>";
 $MainContent .= "<label class='col-sm-3 col-form-label' for='password'>
-                 Password:</label>";
+                 Password:  <span style='color:red;font-size:15px;'>*</span></label>";
 $MainContent .= "<div class='col-sm-9'>";
 $MainContent .= "<input class='form-control' name='password' id='password'
-                type='password' required /> (required)";
+                type='password' required />";
 $MainContent .= "</div>";
 $MainContent .= "</div>";
 
 // Retype Password
 $MainContent .= "<div class='form-group row'>";
 $MainContent .= "<label class='col-sm-3 col-form-label' for='password2'>
-                 Retype Password:</label>";
+                 Retype Password:  <span style='color:red;font-size:15px;'>*</span></label>";
 $MainContent .= "<div class='col-sm-9'>";
 $MainContent .= "<input class='form-control' name='password2' id='password2'
-                type='password' required /> (required)";
+                type='password' required />";
 $MainContent .= "</div>";
 $MainContent .= "</div>";
 
@@ -163,20 +160,20 @@ $MainContent .= "</div>";
 // Forget password qn
 $MainContent .= "<div class='form-group row'>";
 $MainContent .= "<label class='col-sm-3 col-form-label' for='forgetPwdQn'>
-                 Question:</label>";
+                 Question: <span style='color:red;font-size:15px;'>*</span></label>";
 $MainContent .= "<div class='col-sm-9'>";
 $MainContent .= "<input class='form-control' name='forgetPwdQn' id='forgetPwdQn' 
-                  value='$pwdqn' type='text' required /> (required)";
+                  value='$pwdqn' type='text' required />";
 $MainContent .= "</div>";
 $MainContent .= "</div>";
 
 // Forget password ans
 $MainContent .= "<div class='form-group row'>";
 $MainContent .= "<label class='col-sm-3 col-form-label' for='forgetPwdAns'>
-                 Answer:</label>";
+                 Answer: <span style='color:red;font-size:15px;'>*</span></label>";
 $MainContent .= "<div class='col-sm-9'>";
 $MainContent .= "<input class='form-control' name='forgetPwdAns' id='forgetPwdAns' 
-                  value='$pwdans' type='text' required /> (required)";
+                  value='$pwdans' type='text' required />";
 $MainContent .= "</div>";
 $MainContent .= "</div>";
 
