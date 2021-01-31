@@ -12,7 +12,6 @@ if (! isset($_SESSION["ShopperID"])) {
 $MainContent = "<div id='myShopCart' style='margin:auto'>";
 if (isset($_SESSION["Cart"])) {
 	include_once("mysql_conn.php");
-	// To Do 1 (Practical 4): 
 	// Retrieve from database and display shopping cart in a table
 	$qry = "SELECT *, (Price*Quantity) AS Total
 		FROM ShopCartItem WHERE ShopCartID=?";
@@ -23,8 +22,8 @@ if (isset($_SESSION["Cart"])) {
 	$stmt->close();
 	
 	if ($result->num_rows > 0) {
-		// To Do 2 (Practical 4): Format and display 
-		// the page header and header row of shopping cart page
+ 
+		//Format and display the page header and header row of shopping cart page
 		$MainContent .= "<p class='page-title' style='text-align:center'>Shopping Cart</p>"; 
 		$MainContent .= "<div class='table-responsive' >";
 		$MainContent .= "<table class='table table-hover'>"; 
@@ -37,12 +36,13 @@ if (isset($_SESSION["Cart"])) {
 		$MainContent .= "<th>&nbsp;</th>";
 		$MainContent .= "</tr>";
 		$MainContent .= "</thead>";
-		// To Do 5 (Practical 5):
+
 		// Declare an array to store the shopping cart items in session variable 
 		$_SESSION["Items"]=array();
 		// Declare a variable to compute subtotal before tax
 		$subTotal = 0; 
-		// To Do 3 (Practical 4):
+		$noOfItems = 0;
+		
 		// Display the shopping cart content
 		$MainContent .= "<tbody>";
 		while ($row = $result->fetch_array()) {
@@ -79,7 +79,7 @@ if (isset($_SESSION["Cart"])) {
 			$MainContent .= "</form>";
 			$MainContent .= "</td>";
 			$MainContent .= "</tr>";
-			// To Do 6 (Practical 5):
+			
 		    // Store the shopping cart items in session variable as an associate array
 			$_SESSION["Items"][]= array("productId"=>$row["ProductID"],
 										"name"=>$row["Name"],
@@ -87,16 +87,29 @@ if (isset($_SESSION["Cart"])) {
 										"quantity"=>$row["Quantity"]);
 			// Accumulate the running sub-total
 			$subTotal += $row["Total"];
+			if ($subtotal > 200)
+			{
+				$subtotal -= $delivery_sel;
+			}
+			else
+			{
+				$subtotal += $delivery_sel;
+			}
+			$noOfItems += $row["Quantity"];
 		}
 		$MainContent .= "</tbody>";
 		$MainContent .= "</table>";
 		$MainContent .= "</div>";		
-		// To Do 4 (Practical 4): 
+		
 		// Display the subtotal at the end of the shopping cart
+		
 		$MainContent .= "<p style='text-align:right; font-size: 20px'>
-						Subtotal = S$". number_format($subTotal, 2);
+						Total quantity: ".number_format($noOfItems,0);
+		$_SESSION["Total quantity"] = round($noOfItems,0);
+		$MainContent .= "<p style='text-align:right; font-size: 20px'>
+						Subtotal: S$". number_format($subTotal, 2);
 		$_SESSION["SubTotal"] = round($subTotal, 2);
-		// To Do 7 (Practical 5):
+		
 		// Add PayPal Checkout button on the shopping cart page
 		$MainContent .= "<form method='post' action='checkoutProcess.php'>";
 		$MainContent .= "<input type='image' style='float:right;'
