@@ -56,12 +56,6 @@ if (isset($_POST['pwd1'])) {
 	// get new password
     $new_pwd = $_POST["pwd1"];
     
-    /* TO DO (Ana): Forget Password
-
-    // $hashed_pwd = password_hash($new_pwd, PASSWORD_DEFAULT);
-    
-    */
-    
 	// update password
     include_once("mysql_conn.php");
     $qry = "UPDATE Shopper 

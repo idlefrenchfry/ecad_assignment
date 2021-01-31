@@ -8,15 +8,12 @@ label {
 <script type="text/javascript">
 function validateForm()
 {
-    let today = new Date()
-    today.setHours(0)
-    today.setMinutes(0)
-    today.setSeconds(0)
-    today.setMilliseconds(0)
-    
-    // check if date of birth is today or after
-    if (new Date(document.update.dob.value) >= today) {
-        alert("Date of birth cannot be today / after today!")
+    let minDate = new Date()
+    minDate.setYear(minDate.getFullYear() - 16)
+
+    // check if date of birth indicates less than 15 y/o
+    if (new Date(document.update.dob.value) > minDate) {
+        alert("You must be at least 15 to sign up!")
         return false;
     }
 
@@ -53,6 +50,8 @@ if (isset($_SESSION["updateEmailFailedMsg"])) {
     $ph = $_SESSION["updatePhone"];
     $password = $_SESSION["updatePassword"];
     $email = $_SESSION["updateEmail"];
+    $pwdqn = $_SESSION["updateForgetQn"];
+    $pwdans = $_SESSION["updateForgetAns"];
 }
 
 else {
@@ -82,14 +81,8 @@ else {
         $ph = str_replace("(65)", "", $ph);
         $ph = trim($ph);
     
-        // hide passwords with asteriks
-        $password = $row["Password"];
-        $pwd_len = strlen($password);
-        $password = "";
-    
-        for($i = 0; $i < $pwd_len; ++$i) {
-            $password .= "*";
-        }
+        $pwdqn = $row["PwdQuestion"];
+        $pwdans = $row["PwdAnswer"];
     }
 }
 
@@ -109,7 +102,7 @@ $MainContent .= "<div class='card-deck justify-content-center' style='width:100%
 // Member's name
 $MainContent .= "<div class='card border-0 mb-3' style='width: 18rem;'>";
 $MainContent .= "<div class='card-body text-dark'>";
-$MainContent .= "<h5 class='card-title'><label for='name'>Name</label></h5>";
+$MainContent .= "<h5 class='card-title'><label for='name'>Name  <span style='color:red;'>*</span></label></h5>";
 $MainContent .= "<input class='form-control' name='name' id='name' 
                 value='$name' type='text' required />";
 $MainContent .= "</div>";
@@ -125,9 +118,9 @@ $MainContent .= "<div class='card-deck justify-content-center' style='width:100%
 // Member's Birth date
 $MainContent .= "<div class='card border-0 mb-3' style='width: 18rem;'>";
 $MainContent .= "<div class='card-body text-dark'>";
-$MainContent .= "<h5 class='card-title'><label for='dob'>Birthday</label></h5>";
+$MainContent .= "<h5 class='card-title'><label for='dob'>Birthday <span style='color:red;'>*</span></label></h5>";
 $MainContent .= "<input class='form-control' name='dob' id='dob' 
-                value='$dob' type='date' />";
+                value='$dob' type='date' required />";
 $MainContent .= "</div>";
 $MainContent .= "</div>";
 
@@ -161,7 +154,7 @@ $MainContent .= "</div>";
 // Member's Email
 $MainContent .= "<div class='card border-0 mb-3' style='width: 18rem;'>";
 $MainContent .= "<div class='card-body text-dark'>";
-$MainContent .= "<h5 class='card-title'><label for='email'>Email</label></h5>";
+$MainContent .= "<h5 class='card-title'><label for='email'>Email <span style='color:red;'>*</span></label></h5>";
 $MainContent .= "<input class='form-control' name='email' id='email' 
                 value='$email' type='email' required />";
 
@@ -191,6 +184,46 @@ $MainContent .= "</div>";
 
 $MainContent .= "</div>"; // end of card group
 $MainContent .= "</div>"; // end of row 4
+
+// --- start of row 5
+$MainContent .= "<hr/>";
+
+$MainContent .= "<div class='form-group row'>";
+$MainContent .= "<div class='col-sm-9'>";
+$MainContent .= "<span class='page-subtitle'>In case you forget your password</span>";
+$MainContent .= "</div>";
+$MainContent .= "</div>";
+
+$MainContent .= "<div class='row'>"; 
+$MainContent .= "<div class='card-deck justify-content-center' style='width:100%;'>"; // start of card group
+
+// Forget password qn
+$MainContent .= "<div class='card border-0 mb-3' style='width: 18rem;'>";
+$MainContent .= "<div class='card-body text-dark'>";
+$MainContent .= "<h5 class='card-title'><label for='forgetPwdQn'>Question <span style='color:red;'>*</span></label></h5>";
+$MainContent .= "<input class='form-control' name='forgetPwdQn' id='forgetPwdQn' 
+                value='$pwdqn' type='text' required />";
+$MainContent .= "</div>";
+$MainContent .= "</div>";
+
+$MainContent .= "</div>";
+$MainContent .= "</div>";
+
+// --- start of row 6
+$MainContent .= "<div class='row'>"; 
+$MainContent .= "<div class='card-deck justify-content-center' style='width:100%;'>"; // start of card group
+
+// Member's password ans
+$MainContent .= "<div class='card border-0 mb-3' style='width: 18rem;'>";
+$MainContent .= "<div class='card-body text-dark'>";
+$MainContent .= "<h5 class='card-title'><label for='forgetPwdAns'>Answer <span style='color:red;'>*</span></label></h5>";
+$MainContent .= "<input class='form-control' name='forgetPwdAns' id='forgetPwdAns' 
+                value='$pwdans' type='text' required />";
+$MainContent .= "</div>";
+$MainContent .= "</div>";
+
+$MainContent .= "</div>";
+$MainContent .= "</div>";
 
 // save button
 $MainContent .= "<div class='row'>"; 

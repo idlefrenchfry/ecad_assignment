@@ -27,21 +27,22 @@ $MainContent .= "<label class='col-sm-3 col-form-label' for='password'>
 $MainContent .= "<div class='col-sm-9'>";
 $MainContent .= "<input class='form-control' type='password'
                  name='password' id='password' required />";
+
+// Check if user was redirected to login page
+// because of failed login
+if (isset($_SESSION["errors"])) {
+    $MainContent .= "<span class='text-danger'>$_SESSION[errors]</span>";
+    unset($_SESSION["errors"]);
+}
+
 $MainContent .= "</div>";
 $MainContent .= "</div>";
 // 4th Row - Login Button
 $MainContent .= "<div class='form-group row'>";
 $MainContent .= "<div class='col-sm-9 offset-sm-3'>";
-$MainContent .= "<button class='btn btn-primary' type='submit'>Login Button</button>";
+$MainContent .= "<button class='btn btn-primary' type='submit'>Login</button>";
 $MainContent .= "<p>Please <a href='register.php'>sign up</a> if you do not have an account.</p>";
 $MainContent .= "<p><a href='forgetPassword.php'>Forgot Password</a></p>";
-
-// Check if user was redirected to login page
-// because of failed login
-if (isset($_SESSION["errors"])) {
-    $MainContent .= "<p class='text-danger'>$_SESSION[errors]</p>";
-    unset($_SESSION["errors"]);
-}
 
 $MainContent .= "</div>";
 $MainContent .= "</div>";
