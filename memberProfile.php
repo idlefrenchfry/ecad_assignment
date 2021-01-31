@@ -8,15 +8,12 @@ label {
 <script type="text/javascript">
 function validateForm()
 {
-    let today = new Date()
-    today.setHours(0)
-    today.setMinutes(0)
-    today.setSeconds(0)
-    today.setMilliseconds(0)
-    
-    // check if date of birth is today or after
-    if (new Date(document.update.dob.value) >= today) {
-        alert("Date of birth cannot be today / after today!")
+    let minDate = new Date()
+    minDate.setYear(minDate.getFullYear() - 16)
+
+    // check if date of birth indicates less than 15 y/o
+    if (new Date(document.update.dob.value) > minDate) {
+        alert("You must be at least 15 to sign up!")
         return false;
     }
 
@@ -109,7 +106,7 @@ $MainContent .= "<div class='card-deck justify-content-center' style='width:100%
 // Member's name
 $MainContent .= "<div class='card border-0 mb-3' style='width: 18rem;'>";
 $MainContent .= "<div class='card-body text-dark'>";
-$MainContent .= "<h5 class='card-title'><label for='name'>Name</label></h5>";
+$MainContent .= "<h5 class='card-title'><label for='name'>Name  <span style='color:red;'>*</span></label></h5>";
 $MainContent .= "<input class='form-control' name='name' id='name' 
                 value='$name' type='text' required />";
 $MainContent .= "</div>";
@@ -125,9 +122,9 @@ $MainContent .= "<div class='card-deck justify-content-center' style='width:100%
 // Member's Birth date
 $MainContent .= "<div class='card border-0 mb-3' style='width: 18rem;'>";
 $MainContent .= "<div class='card-body text-dark'>";
-$MainContent .= "<h5 class='card-title'><label for='dob'>Birthday</label></h5>";
+$MainContent .= "<h5 class='card-title'><label for='dob'>Birthday <span style='color:red;'>*</span></label></h5>";
 $MainContent .= "<input class='form-control' name='dob' id='dob' 
-                value='$dob' type='date' />";
+                value='$dob' type='date' required />";
 $MainContent .= "</div>";
 $MainContent .= "</div>";
 
@@ -161,7 +158,7 @@ $MainContent .= "</div>";
 // Member's Email
 $MainContent .= "<div class='card border-0 mb-3' style='width: 18rem;'>";
 $MainContent .= "<div class='card-body text-dark'>";
-$MainContent .= "<h5 class='card-title'><label for='email'>Email</label></h5>";
+$MainContent .= "<h5 class='card-title'><label for='email'>Email <span style='color:red;'>*</span></label></h5>";
 $MainContent .= "<input class='form-control' name='email' id='email' 
                 value='$email' type='email' required />";
 
