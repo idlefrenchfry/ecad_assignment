@@ -69,9 +69,10 @@ while ($row = $result->fetch_array())
         $MainContent .="Price: S$ $formattedPrice <br />";
     }
     else{
-        $MainContent .="Price:<span style='font-weight:bold; color: red; text-decoration: line-through;'>  
+        $MainContent .="<h3 style='color:#e80d8b; font-weight:bold;'>On Offer</h3>";
+        $MainContent .="Price:<span style='font-size:14px; color: grey; text-decoration: line-through;'>  
                     S$ $formattedPrice</span>";
-        $MainContent .=" S$ $offeredPrice <br />";
+        $MainContent .=" &nbsp<span style='color:#1daade; font-size:20px; font-weight:700;'>S$ $offeredPrice</span> <br />";
     }
                     
 
