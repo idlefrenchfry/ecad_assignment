@@ -8,7 +8,7 @@ function validateForm()
     }
 
     let minDate = new Date()
-    minDate.setYear(minDate.getFullYear() - 15)
+    minDate.setYear(minDate.getFullYear() - 16)
 
     // check if date of birth indicates less than 15 y/o
     if (new Date(document.register.dob.value) > minDate) {
