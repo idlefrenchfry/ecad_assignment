@@ -72,7 +72,6 @@ if (isset($_SESSION["Cart"])) {
 			$MainContent .= "</td>";
 			$formattedTotal = number_format($row["Total"], 2);
 			$MainContent .= "<td>$formattedTotal</td>";
-			
 			$MainContent .= "<td>";
 			$MainContent .= "<form action='cartFunctions.php' method='post'>";
 			$MainContent .= "<input type='hidden' name='action' value='remove' />";
@@ -86,13 +85,11 @@ if (isset($_SESSION["Cart"])) {
 										"name"=>$row["Name"],
 										"price"=>$row["Price"],
 										"quantity"=>$row["Quantity"]);
-		
 			$subTotal += $row["Total"];
 		}
 		$MainContent .= "</tbody>";
 		$MainContent .= "</table>";
 		$MainContent .= "</div>";		
-		
 		$express = "";
 		$normal = "";
 		if (isset($_SESSION["deliveryMode"])) {
@@ -101,27 +98,20 @@ if (isset($_SESSION["Cart"])) {
 			else
 				$normal = "checked";
 		}
-
-
 		$MainContent .= "<div class='d-flex justify-content-between'>";
-
 		$MainContent .= "<form name='deliveryMode' form method='POST'>";
 		$MainContent .= "<input $normal onclick='this.form.submit()' type='radio' id='normal' name='delivery' value='normal'>";
 		$MainContent .= "<label class='pl-2' onclick='this.form.submit()' for='normal'>Normal Delivery (Within 2 working days) $5</label><br>";
 		$MainContent .= "<input $express onclick='this.form.submit()' type='radio' id='express' name='delivery' value='express'>";
 		$MainContent .= "<label class='pl-2' onclick='this.form.submit()' for='express'>Express Delivery (Within 24 hours) $10</label><br>";
 		$MainContent .= "</form>";
-
-		
 		$MainContent .= "<div><p style='text-align:right; font-size: 20px'>
 						Subtotal = S$". number_format($subTotal, 2) . "</p>";
 		$_SESSION["SubTotal"] = round($subTotal, 2);
-		
 		$MainContent .= "<form method='post' action='checkoutProcess.php'>";
 		$MainContent .= "<input type='image'
 						src='https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif'>";
 		$MainContent .= "</form></div>";
-
 		$MainContent.= "</div>";
 	}
 	else {
@@ -133,7 +123,6 @@ else {
 	$MainContent .= "<h3 style='text-align:center; color:red;'>Empty shopping cart!</h3>";
 }
 $MainContent .= "</div>";
-
 if (isset($_POST["delivery"])) {
 	$_SESSION["deliveryMode"] = $_POST["delivery"];
 
@@ -141,9 +130,7 @@ if (isset($_POST["delivery"])) {
 		$_SESSION["deliveryCharge"] = 5;
 	else
 		$_SESSION["deliveryCharge"] = 10;
-	
 	$MainContent = "";
-
 	echo "<meta http-equiv='refresh' content='0'>";
 }
 
