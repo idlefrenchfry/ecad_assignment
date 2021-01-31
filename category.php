@@ -1,7 +1,7 @@
 ﻿<?php 
 session_start();
 
-// Content to be 60% container width
+// Content to be 90% container width
 $MainContent = "<div style='width:90%; margin:auto;'>";
 
 // Page Header

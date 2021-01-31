@@ -123,15 +123,16 @@ if (isset($_GET['keywords']) && (isset($_GET['num1']) || isset($_GET['num2']) ||
 
     // Close connection
     $conn->close();
-    
-    
-
+    $MainContent .= "<div class='album py-5'>";
+   
     if (count($filtered_products) > 0) {
         $MainContent .= "<p style='font-size: 15px; font-weight: bold;'>Search Results for $_GET[keywords]: </p>";
-        $MainContent .= "<div class='card-deck d-flex justify-content-start;'>"; // Start of card deck
+        $MainContent .= "<div class='container'>";
+        $MainContent .= "<div class='row'>"; // Start of card deck
     foreach ($filtered_products as $row)
     {
-        $MainContent .= "<div class='card' style='max-width: 18rem; margin-bottom: 10px;'>"; // Start of card
+        $MainContent .= "<div class='col-md-4'>";
+        $MainContent .= "<div class='card mb-4' style='min-height:700px; max-height:850px;'>"; // Start of card
 
         // Get product details
         $product = "productDetails.php?pid=$row[ProductID]";
@@ -139,6 +140,7 @@ if (isset($_GET['keywords']) && (isset($_GET['num1']) || isset($_GET['num2']) ||
         $offerPrice = number_format($row["OfferedPrice"],2);
         $onOffer = number_format($row["Offered"],1);
         $img = "./Images/products/$row[ProductImage]";
+        $productDesc = $row["ProductDesc"];
 
         // create card content
         $MainContent .= "<img class='card-img-top' src='$img' alt='Category Image'>";
@@ -149,23 +151,28 @@ if (isset($_GET['keywords']) && (isset($_GET['num1']) || isset($_GET['num2']) ||
             $percentChange = round($percentChange, 0);
             $percentChange = abs($percentChange);
             $MainContent .= "<h5 class='card-title'>$row[ProductTitle]</h5>";
+            $MainContent .= "<p class='card-text'>$productDesc</p>";
+            
             $MainContent .= "<span style='font-size:14px; color: grey;'>
                         <del>S$ $formattedPrice </del></span>";
             $MainContent .= "&nbsp<span style='color:#1daade; font-size:20px; font-weight:700;'>S$ $offerPrice</span>";
             $MainContent .="<h3 style='color:#e80d8b; font-weight:bold;'>-$percentChange% On Offer</h3>"; 
+          
+           
 
         }
         else{
             
             $MainContent .= "<h5 class='card-title'>$row[ProductTitle]</h5>";
+            $MainContent .= "<p class='card-text'>$productDesc</p>";
             $MainContent .= "<span style='color:#1daade; font-size:20px; font-weight:700;'>S$ $formattedPrice</span>";
             
         }
         $MainContent .= "</div>"; // End of card body
         $MainContent .= "<a href='$product' class='btn btn-primary btn-block'>See Details</a>";
+
         $MainContent .= "</div>"; // End of card
-
-
+        $MainContent .= "</div>"; //end col-md-4
     }
     $MainContent .= "</div>"; // End of card deck
 
@@ -178,29 +185,10 @@ if (isset($_GET['keywords']) && (isset($_GET['num1']) || isset($_GET['num2']) ||
         $MainContent .= "<br><p style='font-size: 20px;'>Or you can subscribe to us for more latest updates!</p>";
         $MainContent .= "</div>";
      }
-    
-	// To Do (DIY): End of Code
+     $MainContent .= "</div>";
+    // To Do (DIY): End of Code
+    $MainContent .= "</div>";
 }
-
-
-$MainContent .= "</div>"; // End of Container
+$MainContent .= "</div>";
 include("MasterTemplate.php");
 ?>
-
-<script>  
-$(document).ready(function(){  
-    
-	$( "#price_range" ).slider({
-		range: true,
-		min: 1000,
-		max: 20000,
-		values: [ <?php echo $minimum_range; ?>, <?php echo $maximum_range; ?> ],
-		slide:function(event, ui){
-			$("#minimum_range").val(ui.values[0]);
-			$("#maximum_range").val(ui.values[1]);
-			load_product(ui.values[0], ui.values[1]);
-		}
-	});
-	
-});  
-</script>
