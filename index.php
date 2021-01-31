@@ -2,8 +2,8 @@
 // Detect the current session
 session_start();
 
-// Content to be 50% container width
-$MainContent = "<div style='width:50%; margin:auto;'>";
+// Content to be 80% container width
+$MainContent = "<div style='width:80%; margin:auto;'>";
 
 // Page Header
 $MainContent .= "<div class='row'>";
@@ -27,7 +27,7 @@ if ($result->num_rows > 0) {
     while ($row = $result->fetch_array()) 
 	{
 
-		$MainContent .= "<div class='card' style='max-width: 18rem; margin-bottom: 10px;'>"; // Start of card
+		$MainContent .= "<div class='card' style='min-width: 300px; max-width: 18rem; margin-bottom: 10px;'>"; // Start of card
 
         // Get product details
 		$product = "productDetails.php?pid=$row[ProductID]";
