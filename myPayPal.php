@@ -1,12 +1,4 @@
 <?php
-<<<<<<< HEAD
-$PayPalMode 		= 'sandbox';
-$PayPalApiUsername 	= 'sb-xlezv3951511_api1.business.example.com'; 		
-$PayPalApiPassword 	= 'NTLTWTC9FN7FP3CH'; 		
-$PayPalApiSignature = 'At7M.vjpvoOSoEuUejMvbAJc494kAAhCqtUD2Y1sXe80Ctc5jb-1XQlQ'; 		
-$PayPalCurrencyCode = 'SGD'; 	
-$PayPalReturnURL 	= 'http://localhost:8081/ecad_assignment/checkoutProcess.php';               
-=======
 $PayPalMode 		= 'sandbox';
 $PayPalApiUsername 	= 'sb-xlezv3951511_api1.business.example.com'; 		
 $PayPalApiPassword 	= 'NTLTWTC9FN7FP3CH'; 		
@@ -15,7 +7,6 @@ $PayPalCurrencyCode = 'SGD';
 
 $PayPalReturnURL 	= 'http://localhost:8081/ecad_assignment/checkoutProcess.php'; 
                 
->>>>>>> origin/main
 $PayPalCancelURL 	= 'http://localhost:8081/ecad_assignment/shoppingcart.php'; 
                 	
 function PPHttpPost($methodName_, $nvpStr_, $PayPalApiUsername, $PayPalApiPassword, 

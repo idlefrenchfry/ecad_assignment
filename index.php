@@ -15,7 +15,7 @@ session_start();
 // Establish data connection
 include_once("mysql_conn.php");
 
-$qry = "SELECT * FROM product WHERE OfferStartDate < CURDATE() AND OfferEndDate> CURDATE()";
+$qry = "SELECT * FROM product WHERE OfferStartDate <= CURDATE() AND OfferEndDate> CURDATE()";
 $result = $conn->query($qry);
 
 if ($result->num_rows > 0) {
