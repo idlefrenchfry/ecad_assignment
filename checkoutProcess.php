@@ -6,8 +6,14 @@ $MainContent = "";
 
 if($_POST) //Post Data received from Shopping cart page.
 {
-	// To Do 6 (DIY): Check to ensure each product item saved in the associative
-	//                array is not out of stock
+	// if delivery mode not picked
+	if (!isset($_SESSION["deliveryMode"])) {
+		$_SESSION["deliveryModeNotSelected"] = "<script>alert('Please select a delivery mode!');</script>";
+		header("Location: shoppingCart.php");
+		exit;
+	}
+
+	// check if any items are out of stock
 	$errorMsg = "The following Items are out of stock: <br /><ul>";
 	$checkOutOfStock = FALSE;
 
@@ -45,13 +51,16 @@ if($_POST) //Post Data received from Shopping cart page.
 		$paypal_data .= '&L_PAYMENTREQUEST_0_NUMBER'.$key.'='.urlencode($item["productId"]);
 	}
 	
-	// To Do 1A: Compute GST amount 7% for Singapore, round the figure to 2 decimal places
-	$_SESSION["Tax"] = round($_SESSION["SubTotal"]*0.07, 2);
+	// calculate GST
+	$qry = "SELECT * FROM gst ORDER BY EffectiveDate DESC LIMIT 1";
+	$result = $conn->query($qry);
+	$currentGst = $result->fetch_array()["TaxRate"];
+	$_SESSION["Tax"] = round($_SESSION["SubTotal"]*($currentGst / 100), 2);
 	
-	// To Do 1B: Compute Shipping charge - S$2.00 per trip
-	$_SESSION["ShipCharge"] = 2.00;
+	// add shipping charge
+	$_SESSION["ShipCharge"] = $_SESSION["deliveryCharge"];
 	
-	//Data to be sent to PayPal
+	// data to send to PayPal
 	$padata = '&CURRENCYCODE='.urlencode($PayPalCurrencyCode).
 			  '&PAYMENTACTION=Sale'.
 			  '&ALLOWNOTE=1'.
@@ -67,7 +76,7 @@ if($_POST) //Post Data received from Shopping cart page.
 			  '&RETURNURL='.urlencode($PayPalReturnURL ).
 			  '&CANCELURL='.urlencode($PayPalCancelURL);	
 		
-	//We need to execute the "SetExpressCheckOut" method to obtain paypal token
+	// we need to execute the "SetExpressCheckOut" method to obtain paypal token
 	$httpParsedResponseAr = PPHttpPost('SetExpressCheckout', $padata, $PayPalApiUsername, 
 	                                   $PayPalApiPassword, $PayPalApiSignature, $PayPalMode);
 		
@@ -95,7 +104,7 @@ if($_POST) //Post Data received from Shopping cart page.
 	}
 }
 
-//Paypal redirects back to this page using ReturnURL, We should receive TOKEN and Payer ID
+// Paypal redirects back to this page using ReturnURL, We should receive TOKEN and Payer ID
 if(isset($_GET["token"]) && isset($_GET["PayerID"])) 
 {	
 	//we will be using these two variables to execute the "DoExpressCheckoutPayment"
@@ -133,12 +142,11 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 	                                   $PayPalApiUsername, $PayPalApiPassword, 
 									   $PayPalApiSignature, $PayPalMode);
 	
-	//Check if everything went ok..
+	// if successful
 	if("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) || 
 	   "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"])) 
 	{
-		// To Do 5 (DIY): Update stock inventory in product table 
-		//                after successful checkout
+		// update stock in product table
 		foreach($_SESSION['Items'] as $item) 
 		{
 			$qry = "UPDATE Product SET Quantity=IF(Quantity > ?, Quantity-?, 0) WHERE ProductID = ?";
@@ -147,10 +155,8 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 			$stmt->execute();
 			$stmt->close();
 		}
-
-		// End of To Do 5
 	
-		// To Do 2: Update shopcart table, close the shopping cart (OrderPlaced=1)
+		// update and close cart in table
 		$total = $_SESSION["SubTotal"] + $_SESSION["Tax"] + $_SESSION["ShipCharge"];
 		$qry = "UPDATE shopcart SET OrderPlaced=1, Quantity=?, 
 				SubTotal=?, ShipCharge=?, Tax=?, Total=?
@@ -161,11 +167,8 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 						  $total, $_SESSION["Cart"]);
 		$stmt->execute();
 		$stmt->close();
-
-		// End of To Do 2
 		
-		//We need to execute the "GetTransactionDetails" API Call at this point 
-		//to get customer details
+		// get customer details
 		$transactionID = urlencode(
 		                 $httpParsedResponseAr["PAYMENTINFO_0_TRANSACTIONID"]);
 		$nvpStr = "&TRANSACTIONID=".$transactionID;
@@ -217,13 +220,15 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 				
 			$conn->close();
 				  
-			// To Do 4A: Reset the "Number of Items in Cart" session variable to zero.
+			// reset no. of items to 0
 			$_SESSION["NumCartItem"] = 0;
 	  		
-			// To Do 4B: Clear the session variable that contains Shopping Cart ID.
+			//  clear session variables relating to shopping cart
 			unset($_SESSION["Cart"]);
+			unset($_SESSION["deliveryMode"]);
+			unset($_SESSION["deliveryCharge"]);
 			
-			// To Do 4C: Redirect shopper to the order confirmed page.
+			// redirect to order confirmed page.
 			header("Location: orderConfirmed.php");
 			exit;
 		} 

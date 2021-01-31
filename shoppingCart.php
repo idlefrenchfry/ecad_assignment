@@ -21,6 +21,12 @@ if (isset($_SESSION["Cart"])) {
 	$stmt->execute();
 	$result = $stmt->get_result();
 	$stmt->close();
+
+	// if redirected because delivery mode not selected when checking out
+	if (isset($_SESSION["deliveryModeNotSelected"])) {
+		echo $_SESSION["deliveryModeNotSelected"];
+		unset($_SESSION["deliveryModeNotSelected"]);
+	}
 	
 	if ($result->num_rows > 0) {
 		// To Do 2 (Practical 4): Format and display 
@@ -91,17 +97,38 @@ if (isset($_SESSION["Cart"])) {
 		$MainContent .= "</tbody>";
 		$MainContent .= "</table>";
 		$MainContent .= "</div>";		
-		// To Do 4 (Practical 4): 
+		
+		$express = "";
+		$normal = "";
+		if (isset($_SESSION["deliveryMode"])) {
+			if ($_SESSION["deliveryMode"] == "express")
+				$express = "checked";
+			else
+				$normal = "checked";
+		}
+
+
+		$MainContent .= "<div class='d-flex justify-content-between'>";
+
+		$MainContent .= "<form name='deliveryMode' form method='POST'>";
+		$MainContent .= "<input $normal onclick='this.form.submit()' type='radio' id='normal' name='delivery' value='normal'>";
+		$MainContent .= "<label class='pl-2' onclick='this.form.submit()' for='normal'>Normal Delivery (Within 2 working days) $5</label><br>";
+		$MainContent .= "<input $express onclick='this.form.submit()' type='radio' id='express' name='delivery' value='express'>";
+		$MainContent .= "<label class='pl-2' onclick='this.form.submit()' for='express'>Express Delivery (Within 24 hours) $10</label><br>";
+		$MainContent .= "</form>";
+
 		// Display the subtotal at the end of the shopping cart
-		$MainContent .= "<p style='text-align:right; font-size: 20px'>
-						Subtotal = S$". number_format($subTotal, 2);
+		$MainContent .= "<div><p style='text-align:right; font-size: 20px'>
+						Subtotal = S$". number_format($subTotal, 2) . "</p>";
 		$_SESSION["SubTotal"] = round($subTotal, 2);
 		// To Do 7 (Practical 5):
 		// Add PayPal Checkout button on the shopping cart page
 		$MainContent .= "<form method='post' action='checkoutProcess.php'>";
-		$MainContent .= "<input type='image' style='float:right;'
+		$MainContent .= "<input type='image'
 						src='https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif'>";
-		$MainContent .= "</form></p>";
+		$MainContent .= "</form></div>";
+
+		$MainContent.= "</div>";
 	}
 	else {
 		$MainContent .= "<h3 style='text-align:center; color:red;'>Empty shopping cart!</h3>";
@@ -112,6 +139,20 @@ else {
 	$MainContent .= "<h3 style='text-align:center; color:red;'>Empty shopping cart!</h3>";
 }
 $MainContent .= "</div>";
+
+if (isset($_POST["delivery"])) {
+	$_SESSION["deliveryMode"] = $_POST["delivery"];
+
+	if ($_POST["delivery"] == "normal")
+		$_SESSION["deliveryCharge"] = 5;
+	else
+		$_SESSION["deliveryCharge"] = 10;
+	
+	$MainContent = "";
+
+	// refresh page and update delivery
+	echo "<meta http-equiv='refresh' content='0'>";
+}
 
 include("MasterTemplate.php"); 
 ?>
