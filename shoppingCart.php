@@ -12,7 +12,9 @@ if (! isset($_SESSION["ShopperID"])) {
 $MainContent = "<div id='myShopCart' style='margin:auto'>";
 if (isset($_SESSION["Cart"])) {
 	include_once("mysql_conn.php");
-	
+
+	// Retrieve from database and display shopping cart in a table
+
 	$qry = "SELECT *, (Price*Quantity) AS Total
 		FROM ShopCartItem WHERE ShopCartID=?";
 	$stmt = $conn->prepare($qry) ;
@@ -28,7 +30,10 @@ if (isset($_SESSION["Cart"])) {
 	}
 	
 	if ($result->num_rows > 0) {
-		
+
+ 
+		//Format and display the page header and header row of shopping cart page
+
 		$MainContent .= "<p class='page-title' style='text-align:center'>Shopping Cart</p>"; 
 		$MainContent .= "<div class='table-responsive' >";
 		$MainContent .= "<table class='table table-hover'>"; 
@@ -41,11 +46,14 @@ if (isset($_SESSION["Cart"])) {
 		$MainContent .= "<th>&nbsp;</th>";
 		$MainContent .= "</tr>";
 		$MainContent .= "</thead>";
-		
+		// Declare an array to store the shopping cart items in session variable 
+
 		$_SESSION["Items"]=array();
 		
 		$subTotal = 0; 
-	
+		$noOfItems = 0;
+		
+		// Display the shopping cart content
 		$MainContent .= "<tbody>";
 		while ($row = $result->fetch_array()) {
 			$MainContent .= "<tr>";
@@ -81,15 +89,31 @@ if (isset($_SESSION["Cart"])) {
 			$MainContent .= "</td>";
 			$MainContent .= "</tr>";
 			
+
+		    // Store the shopping cart items in session variable as an associate array
+
 			$_SESSION["Items"][]= array("productId"=>$row["ProductID"],
 										"name"=>$row["Name"],
 										"price"=>$row["Price"],
 										"quantity"=>$row["Quantity"]);
 			$subTotal += $row["Total"];
+			
+			$noOfItems += $row["Quantity"];
 		}
 		$MainContent .= "</tbody>";
 		$MainContent .= "</table>";
 		$MainContent .= "</div>";		
+		
+		// Display the subtotal at the end of the shopping cart
+		
+		$MainContent .= "<p style='text-align:right; font-size: 20px'>
+						Total quantity: ".number_format($noOfItems,0);
+		$_SESSION["Total quantity"] = round($noOfItems,0);
+		$MainContent .= "<p style='text-align:right; font-size: 20px'>
+						Subtotal: S$". number_format($subTotal, 2);
+		$_SESSION["SubTotal"] = round($subTotal, 2);
+		
+		// Add PayPal Checkout button on the shopping cart page
 		$express = "";
 		$normal = "";
 		if (isset($_SESSION["deliveryMode"])) {
@@ -105,9 +129,31 @@ if (isset($_SESSION["Cart"])) {
 		$MainContent .= "<input $express onclick='this.form.submit()' type='radio' id='express' name='delivery' value='express'>";
 		$MainContent .= "<label class='pl-2' onclick='this.form.submit()' for='express'>Express Delivery (Within 24 hours) $10</label><br>";
 		$MainContent .= "</form>";
-		$MainContent .= "<div><p style='text-align:right; font-size: 20px'>
-						Subtotal = S$". number_format($subTotal, 2) . "</p>";
-		$_SESSION["SubTotal"] = round($subTotal, 2);
+
+		$totalAmt = $subTotal;
+		if ($normal == "checked")
+		{
+			$totalAmt += 5;
+			$MainContent .= "<div><p style='text-align:right; font-size: 20px'>
+						Total: S$". number_format($totalAmt, 2) . "</p>";
+		$_SESSION["Total"] = round($totalAmt, 2);
+		}
+		else if ($express == "checked")
+		{
+			if ($subTotal > 200)
+			{
+			$MainContent .= "<div><p style='text-align:right; font-size: 20px'>
+						Total: S$". number_format($subTotal, 2) . "</p>";
+			$_SESSION["Total"] = round($subTotal, 2);
+			}
+			else
+			{
+				$totalAmt += 10;
+				$MainContent .= "<div><p style='text-align:right; font-size: 20px'>
+						Total: S$". number_format($totalAmt, 2) . "</p>";
+				$_SESSION["Total"] = round($totalAmt, 2);
+			}
+		}
 		$MainContent .= "<form method='post' action='checkoutProcess.php'>";
 		$MainContent .= "<input type='image'
 						src='https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif'>";
