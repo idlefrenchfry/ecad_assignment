@@ -49,6 +49,9 @@ if(isset($_SESSION["ShopperName"])) {
     <div class="collapse navbar-collapse" id="collapsibleNavbar">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
+                <a href="index.php" class="nav-link">Home</a>
+            </li>
+            <li class="nav-item">
                 <a href="category.php" class="nav-link">Product Category</a>
             </li>
             <li class="nav-item">
