@@ -74,6 +74,12 @@ if ($result->num_rows > 0) {
 	$MainContent .= "</div>"; // End of card deck
 }
 
+else {
+	$MainContent = "<img src='Images/welcome2egiftr.png'  
+					class='img-fluid' 
+					style='display:block; margin:auto;'/>";
+}
+
 $conn->close(); // Close database connnection     
 
 
