@@ -1,5 +1,4 @@
 <?php 
-// Detect the current session
 session_start();
 	
 if(isset($_SESSION["OrderID"])) {	

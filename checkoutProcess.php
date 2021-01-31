@@ -4,16 +4,13 @@ include_once("mypaypal.php");
 include_once("mysql_conn.php");
 $MainContent = "";
 
-if($_POST) //Post Data received from Shopping cart page.
+if($_POST) 
 {
-	// if delivery mode not picked
 	if (!isset($_SESSION["deliveryMode"])) {
 		$_SESSION["deliveryModeNotSelected"] = "<script>alert('Please select a delivery mode!');</script>";
 		header("Location: shoppingCart.php");
 		exit;
 	}
-
-	// check if any items are out of stock
 	$errorMsg = "The following Items are out of stock: <br /><ul>";
 	$checkOutOfStock = FALSE;
 
@@ -39,11 +36,8 @@ if($_POST) //Post Data received from Shopping cart page.
 		exit;
 	}
 
-	// End of To Do 6
-	
 	$paypal_data = '';
-	// Get all items from the shopping cart, concatenate to the variable $paypal_data
-	// $_SESSION['Items'] is an associative array
+	
 	foreach($_SESSION['Items'] as $key=>$item) {
 		$paypal_data .= '&L_PAYMENTREQUEST_0_QTY'.$key.'='.urlencode($item["quantity"]);
 	  	$paypal_data .= '&L_PAYMENTREQUEST_0_AMT'.$key.'='.urlencode($item["price"]);
@@ -51,16 +45,11 @@ if($_POST) //Post Data received from Shopping cart page.
 		$paypal_data .= '&L_PAYMENTREQUEST_0_NUMBER'.$key.'='.urlencode($item["productId"]);
 	}
 	
-	// calculate GST
 	$qry = "SELECT * FROM gst ORDER BY EffectiveDate DESC LIMIT 1";
 	$result = $conn->query($qry);
 	$currentGst = $result->fetch_array()["TaxRate"];
 	$_SESSION["Tax"] = round($_SESSION["SubTotal"]*($currentGst / 100), 2);
-	
-	// add shipping charge
 	$_SESSION["ShipCharge"] = $_SESSION["deliveryCharge"];
-	
-	// data to send to PayPal
 	$padata = '&CURRENCYCODE='.urlencode($PayPalCurrencyCode).
 			  '&PAYMENTACTION=Sale'.
 			  '&ALLOWNOTE=1'.
@@ -76,11 +65,11 @@ if($_POST) //Post Data received from Shopping cart page.
 			  '&RETURNURL='.urlencode($PayPalReturnURL ).
 			  '&CANCELURL='.urlencode($PayPalCancelURL);	
 		
-	// we need to execute the "SetExpressCheckOut" method to obtain paypal token
+	
 	$httpParsedResponseAr = PPHttpPost('SetExpressCheckout', $padata, $PayPalApiUsername, 
 	                                   $PayPalApiPassword, $PayPalApiSignature, $PayPalMode);
 		
-	//Respond according to message we receive from Paypal
+	
 	if("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) || 
 	   "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"])) {					
 		if($PayPalMode=='sandbox')
@@ -88,14 +77,14 @@ if($_POST) //Post Data received from Shopping cart page.
 		else
 			$paypalmode = '';
 				
-		//Redirect user to PayPal store with Token received.
+		
 		$paypalurl ='https://www'.$paypalmode. 
 		            '.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token='.
 					$httpParsedResponseAr["TOKEN"].'';
 		header('Location: '.$paypalurl);
 	}
 	else {
-		//Show error message
+		
 		$MainContent .= "<div style='color:red'><b>SetExpressCheckOut failed : </b>".
 		                urldecode($httpParsedResponseAr["L_LONGMESSAGE0"])."</div>";
 		$MainContent .= "<pre>";
@@ -104,17 +93,15 @@ if($_POST) //Post Data received from Shopping cart page.
 	}
 }
 
-// Paypal redirects back to this page using ReturnURL, We should receive TOKEN and Payer ID
+
 if(isset($_GET["token"]) && isset($_GET["PayerID"])) 
 {	
-	//we will be using these two variables to execute the "DoExpressCheckoutPayment"
-	//Note: we haven't received any payment yet.
+	
 	$token = $_GET["token"];
 	$playerid = $_GET["PayerID"];
 	$paypal_data = '';
 	
-	// Get all items from the shopping cart, concatenate to the variable $paypal_data
-	// $_SESSION['Items'] is an associative array
+	
 	foreach($_SESSION['Items'] as $key=>$item) 
 	{
 		$paypal_data .= '&L_PAYMENTREQUEST_0_QTY'.$key.'='.urlencode($item["quantity"]);
@@ -123,7 +110,7 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 		$paypal_data .= '&L_PAYMENTREQUEST_0_NUMBER'.$key.'='.urlencode($item["productId"]);
 	}
 	
-	//Data to be sent to PayPal
+	
 	$padata = '&TOKEN='.urlencode($token).
 			  '&PAYERID='.urlencode($playerid).
 			  '&PAYMENTREQUEST_0_PAYMENTACTION='.urlencode("SALE").
@@ -136,17 +123,14 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 								                 $_SESSION["ShipCharge"]).
 			  '&PAYMENTREQUEST_0_CURRENCYCODE='.urlencode($PayPalCurrencyCode);
 	
-	//We need to execute the "DoExpressCheckoutPayment" at this point 
-	//to receive payment from user.
+	
 	$httpParsedResponseAr = PPHttpPost('DoExpressCheckoutPayment', $padata, 
 	                                   $PayPalApiUsername, $PayPalApiPassword, 
 									   $PayPalApiSignature, $PayPalMode);
 	
-	// if successful
 	if("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) || 
 	   "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"])) 
 	{
-		// update stock in product table
 		foreach($_SESSION['Items'] as $item) 
 		{
 			$qry = "UPDATE Product SET Quantity=IF(Quantity > ?, Quantity-?, 0) WHERE ProductID = ?";
@@ -156,7 +140,6 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 			$stmt->close();
 		}
 	
-		// update and close cart in table
 		$total = $_SESSION["SubTotal"] + $_SESSION["Tax"] + $_SESSION["ShipCharge"];
 		$qry = "UPDATE shopcart SET OrderPlaced=1, Quantity=?, 
 				SubTotal=?, ShipCharge=?, Tax=?, Total=?
@@ -167,8 +150,7 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 						  $total, $_SESSION["Cart"]);
 		$stmt->execute();
 		$stmt->close();
-		
-		// get customer details
+
 		$transactionID = urlencode(
 		                 $httpParsedResponseAr["PAYMENTINFO_0_TRANSACTIONID"]);
 		$nvpStr = "&TRANSACTIONID=".$transactionID;
@@ -179,10 +161,6 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 		if("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) || 
 		   "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"])) 
 		   {
-			//gennerate order entry and feed back orderID information
-			//You may have more information for the generated order entry 
-			//if you set those information in the PayPal test accounts.
-			
 			$ShipName = addslashes(urldecode($httpParsedResponseAr["SHIPTONAME"]));
 			
 			$ShipAddress = urldecode($httpParsedResponseAr["SHIPTOSTREET"]);
@@ -200,8 +178,7 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 			
 			$ShipEmail = urldecode($httpParsedResponseAr["EMAIL"]);			
 			
-			// To Do 3: Insert an Order record with shipping information
-			//          Get the Order ID and save it in session variable.
+			
 			$qry = "INSERT INTO orderdata (ShipName, ShipAddress,
 										   ShipCountry,
 										   ShipEmail, ShopCartID)
@@ -215,27 +192,19 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 			$result = $conn->query($qry);
 			$row = $result->fetch_array();
 			$_SESSION["OrderID"] = $row["OrderID"];
-
-			// End of To Do 3
-				
 			$conn->close();
-				  
-			// reset no. of items to 0
 			$_SESSION["NumCartItem"] = 0;
-	  		
-			//  clear session variables relating to shopping cart
 			unset($_SESSION["Cart"]);
 			unset($_SESSION["deliveryMode"]);
 			unset($_SESSION["deliveryCharge"]);
-			
-			// redirect to order confirmed page.
+
 			header("Location: orderConfirmed.php");
 			exit;
 		} 
 		else 
 		{
 		    $MainContent .= "<div style='color:red'><b>GetTransactionDetails failed:</b>".
-			                urldecode($httpParsedResponseAr["L_LONGMESSAGE0"]).'</div>';
+			 urldecode($httpParsedResponseAr["L_LONGMESSAGE0"]).'</div>';
 			$MainContent .= "<pre>";
 			$MainContent .= print_r($httpParsedResponseAr);
 			$MainContent .= "</pre>";
