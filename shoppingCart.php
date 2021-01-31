@@ -129,9 +129,31 @@ if (isset($_SESSION["Cart"])) {
 		$MainContent .= "<input $express onclick='this.form.submit()' type='radio' id='express' name='delivery' value='express'>";
 		$MainContent .= "<label class='pl-2' onclick='this.form.submit()' for='express'>Express Delivery (Within 24 hours) $10</label><br>";
 		$MainContent .= "</form>";
-		$MainContent .= "<div><p style='text-align:right; font-size: 20px'>
-						Subtotal = S$". number_format($subTotal, 2) . "</p>";
-		$_SESSION["SubTotal"] = round($subTotal, 2);
+
+		$totalAmt = $subTotal;
+		if ($normal == "checked")
+		{
+			$totalAmt += 5;
+			$MainContent .= "<div><p style='text-align:right; font-size: 20px'>
+						Total: S$". number_format($totalAmt, 2) . "</p>";
+		$_SESSION["Total"] = round($totalAmt, 2);
+		}
+		else if ($express == "checked")
+		{
+			if ($subTotal > 200)
+			{
+			$MainContent .= "<div><p style='text-align:right; font-size: 20px'>
+						Total: S$". number_format($subTotal, 2) . "</p>";
+			$_SESSION["Total"] = round($subTotal, 2);
+			}
+			else
+			{
+				$totalAmt += 10;
+				$MainContent .= "<div><p style='text-align:right; font-size: 20px'>
+						Total: S$". number_format($totalAmt, 2) . "</p>";
+				$_SESSION["Total"] = round($totalAmt, 2);
+			}
+		}
 		$MainContent .= "<form method='post' action='checkoutProcess.php'>";
 		$MainContent .= "<input type='image'
 						src='https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif'>";
