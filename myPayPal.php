@@ -5,7 +5,6 @@ $PayPalApiPassword 	= 'NTLTWTC9FN7FP3CH'; 		//Paypal API password
 $PayPalApiSignature = 'At7M.vjpvoOSoEuUejMvbAJc494kAAhCqtUD2Y1sXe80Ctc5jb-1XQlQ'; 		//Paypal API Signature
 $PayPalCurrencyCode = 'SGD'; 	//Paypal Currency Code
 //URL to redirect to after PayPal has complete the online payment
-// TO DO (Ana): Change ecad_assignment to egiftr
 $PayPalReturnURL 	= 'http://localhost:8081/ecad_assignment/checkoutProcess.php'; 
 //URL to redirect to if user clicks cancel                
 $PayPalCancelURL 	= 'http://localhost:8081/ecad_assignment/shoppingcart.php'; 
