@@ -49,7 +49,7 @@ if ($result->num_rows > 0) {
         $MainContent .= "<div class='card-body'>"; // Start of card body
         if ($onOffer == 1)
         {
-            $percentChange = (1 - $formattedPrice / $offerPrice) * 100;
+            $percentChange = (1.00 - $offerPrice / $formattedPrice) * 100.00;
             $percentChange = round($percentChange, 0);
             $percentChange = abs($percentChange);
             $MainContent .= "<h5 class='card-title'>$row[ProductTitle]</h5>";

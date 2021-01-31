@@ -145,14 +145,14 @@ if (isset($_GET['keywords']) && (isset($_GET['num1']) || isset($_GET['num2']) ||
         $MainContent .= "<div class='card-body'>"; // Start of card body
         if ($onOffer == 1)
         {
-            $percentChange = (1 - $formattedPrice / $offerPrice) * 100;
+            $percentChange = (1.00 - $offerPrice / $formattedPrice) * 100.00;
             $percentChange = round($percentChange, 0);
             $percentChange = abs($percentChange);
             $MainContent .= "<h5 class='card-title'>$row[ProductTitle]</h5>";
             $MainContent .= "<span style='font-size:14px; color: grey;'>
                         <del>S$ $formattedPrice </del></span>";
             $MainContent .= "&nbsp<span style='color:#1daade; font-size:20px; font-weight:700;'>S$ $offerPrice</span>";
-            $MainContent .="<h3 style='color:#e80d8b; font-weight:bold;'>-$percentChange%</h3>";    
+            $MainContent .="<h3 style='color:#e80d8b; font-weight:bold;'>-$percentChange% On Offer</h3>"; 
 
         }
         else{
