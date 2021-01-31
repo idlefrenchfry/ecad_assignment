@@ -138,6 +138,14 @@ function removeItem() {
 	$conn->close();
 	header("Location: shoppingCart.php");
 	$_SESSION["NumCartItem"]=$_SESSION["NumCartItem"]-1;
+
+	// reset delivery mdoe if shopping cart is empty
+	if ($_SESSION["NumCartItem"] == 0) {
+		if (isset($_SESSION["deliveryMode"])) {
+			unset($_SESSION["deliveryMode"]);
+			unset($_SESSION["deliveryCharge"]);
+		}
+	}
 	exit;
 	
 }		
