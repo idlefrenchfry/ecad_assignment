@@ -128,50 +128,46 @@ if (isset($_GET['keywords']) && (isset($_GET['num1']) || isset($_GET['num2']) ||
 
     if (count($filtered_products) > 0) {
         $MainContent .= "<p style='font-size: 15px; font-weight: bold;'>Search Results for $_GET[keywords]: </p>";
-        $MainContent .= "<table class='table table-striped'>";
-        $MainContent .= "<thead class='thead-dark'>";
-        $MainContent .= "<tr>";
-        $MainContent .= "<th scope='col'></th>";
-        $MainContent .= "<th scope='col'>Title</th>";
-        $MainContent .= "<th scope='col'>Description</th>";
-        $MainContent .= "<th scope='col'>Price</th>";
-        $MainContent .= "</tr>";
-        $MainContent .= "</thead>";
+        $MainContent .= "<div class='card-deck d-flex justify-content-start;'>"; // Start of card deck
     foreach ($filtered_products as $row)
     {
-        // Original code
-        // $MainContent .= "<p><a href='$product'>$row[ProductTitle]</a></p>";
+        $MainContent .= "<div class='card' style='max-width: 18rem; margin-bottom: 10px;'>"; // Start of card
 
-        // code for table display
-        // Table format
+        // Get product details
+        $product = "productDetails.php?pid=$row[ProductID]";
+        $formattedPrice = number_format($row["Price"], 2);
+        $offerPrice = number_format($row["OfferedPrice"],2);
+        $onOffer = number_format($row["Offered"],1);
         $img = "./Images/products/$row[ProductImage]";
-        if ($row["Offered"] == 1) {
-        
-            $MainContent .= "<tbody>";
-            $product = "productDetails.php?pid=$row[ProductID]";
-            $MainContent .= "<tr>";
-            $MainContent .= "<td><a href=$product><img style='width:10rem; height:10rem' src=$img /></a></td>";
-            $MainContent .= "<td><a href='$product'>$row[ProductTitle]</a></td>";
-            $MainContent .= "<td style='width: 60%;'>$row[ProductDesc]</td>";
-            $MainContent .= "<td style='width: 10%;'><del>S$"."$row[Price]</del><a style='color:red;'><br/>S$"."$row[OfferedPrice]</a></td>";
-            $MainContent .= "</tr>";
-            $MainContent .= "</tbody>";
+
+        // create card content
+        $MainContent .= "<img class='card-img-top' src='$img' alt='Category Image'>";
+        $MainContent .= "<div class='card-body'>"; // Start of card body
+        if ($onOffer == 1)
+        {
+            $percentChange = (1 - $formattedPrice / $offerPrice) * 100;
+            $percentChange = round($percentChange, 0);
+            $percentChange = abs($percentChange);
+            $MainContent .= "<h5 class='card-title'>$row[ProductTitle]</h5>";
+            $MainContent .= "<span style='font-size:14px; color: grey;'>
+                        <del>S$ $formattedPrice </del></span>";
+            $MainContent .= "&nbsp<span style='color:#1daade; font-size:20px; font-weight:700;'>S$ $offerPrice</span>";
+            $MainContent .="<h3 style='color:#e80d8b; font-weight:bold;'>-$percentChange%</h3>";    
+
         }
         else{
-            $MainContent .= "<tbody>";
-            $product = "productDetails.php?pid=$row[ProductID]";
-            $MainContent .= "<tr>";
-            $MainContent .= "<td><a href=$product><img style='width:10rem; height:10rem' src=$img /></a></td>";
-            $MainContent .= "<td><a href='$product'>$row[ProductTitle]</a></td>";
-            $MainContent .= "<td style='width: 60%;'>$row[ProductDesc]</td>";
-            $MainContent .= "<td style='width: 10%;'>S$"."$row[Price]</td>";
-            $MainContent .= "</tr>";
-            $MainContent .= "</tbody>";
+            
+            $MainContent .= "<h5 class='card-title'>$row[ProductTitle]</h5>";
+            $MainContent .= "<span style='color:#1daade; font-size:20px; font-weight:700;'>S$ $formattedPrice</span>";
+            
         }
+        $MainContent .= "</div>"; // End of card body
+        $MainContent .= "<a href='$product' class='btn btn-primary btn-block'>See Details</a>";
+        $MainContent .= "</div>"; // End of card
 
 
     }
-    $MainContent .= "</table>";
+    $MainContent .= "</div>"; // End of card deck
 
     }
    
