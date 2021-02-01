@@ -69,7 +69,7 @@ $MainContent .= "</div>";
 $MainContent .= "<div class='row' style='margin-bottom: 70px;'>";
 
 // overall feedback rating
-$MainContent .= "<div class='col-sm-4'>"; // start of column 1
+$MainContent .= "<div class='col-md-4 col-sm-12'>"; // start of column 1
 
 // -- average user rating
 $MainContent .= "<div class='row'>";
@@ -135,14 +135,14 @@ if (isset($_SESSION["ShopperID"])) {
 }
 
 $MainContent .= "<div class='row mt-3'>";
-$MainContent .= "<button $disabled type='button' class='btn btn-primary d-block' style='margin: auto;'  data-toggle='modal' data-target='#feedbackFormModal'>";
+$MainContent .= "<button $disabled type='button' class='btn btn-primary d-block' style='margin: auto; margin-bottom: 20px;'  data-toggle='modal' data-target='#feedbackFormModal'>";
 $MainContent .= $formButtonMsg;
 $MainContent .= "</button>";
 $MainContent .= "</div>";
 
 $MainContent .= "</div>"; // end of overall breakdown column
 
-$MainContent .= "<div class='col-sm-8'>";
+$MainContent .= "<div class='col-md-8 col-sm-12'>";
 
 // all feedback
 for ($i = 0; $i < $total_no_feedbacks; ++$i) {
